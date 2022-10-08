@@ -139,6 +139,9 @@ def apply_admins():
     self.types[admins.parameter] = empty(AdminType)
     self.types[admins.emergency] = empty(AdminType)
 
+    # if the same address is used for multiple roles (ownership / parameter / emg)
+    # only the last update will be in effect
+    # therefore, each admin should be a unique address
     future_admins: AdminSet = self.future_admins
     self.types[future_admins.ownership] = AdminType.OWNERSHIP
     self.types[future_admins.parameter] = AdminType.PARAMETER
