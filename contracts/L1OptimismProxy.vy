@@ -46,12 +46,18 @@ future_admins: public(AdminSet)
 messenger: public(CrossDomainMessenger)
 transaction_chain: public(CanonicalTransactionChain)
 
+types: HashMap[address, AdminType]
+
 
 @external
 def __init__(_admins: AdminSet, _messenger: CrossDomainMessenger, _transaction_chain: CanonicalTransactionChain):
     self.admins = _admins
     self.messenger = _messenger
     self.transaction_chain = _transaction_chain
+
+    self.types[_admins.ownership] = AdminType.OWNERSHIP
+    self.types[_admins.parameter] = AdminType.PARAMETER
+    self.types[_admins.emergency] = AdminType.EMERGENCY
 
     log ApplyAdmins(_admins)
     log SetMessenger(_messenger)
@@ -60,17 +66,8 @@ def __init__(_admins: AdminSet, _messenger: CrossDomainMessenger, _transaction_c
 
 @external
 def send_message(_target: address, _message: Bytes[MAXSIZE_MESSAGE], _gas_limit: uint32 = 0):
-
-    # NOTE: match statement would be nice
-    admin_type: AdminType = empty(AdminType)
-    if msg.sender == self.admins.ownership:
-        admin_type = AdminType.OWNERSHIP
-    elif msg.sender == self.admins.parameter:
-        admin_type = AdminType.PARAMETER
-    elif msg.sender == self.admins.emergency:
-        admin_type = AdminType.EMERGENCY
-    else:
-        raise "Not allowed."
+    admin_type: AdminType = self.types[msg.sender]
+    assert admin_type in (AdminType.OWNERSHIP | AdminType.PARAMETER | AdminType.EMERGENCY)
 
     # https://community.optimism.io/docs/developers/bridge/messaging/#for-l1-%E2%87%92-l2-transactions
     gas_limit: uint32 = _gas_limit
@@ -116,8 +113,17 @@ def commit_admins(_admins: AdminSet):
 
 @external
 def apply_admins():
-    assert msg.sender == self.admins.ownership
+    admins: AdminSet = self.admins
+    assert msg.sender == admins.ownership
+
+    self.types[admins.ownership] = empty(AdminType)
+    self.types[admins.parameter] = empty(AdminType)
+    self.types[admins.emergency] = empty(AdminType)
 
     future_admins: AdminSet = self.future_admins
+    self.types[future_admins.ownership] = AdminType.OWNERSHIP
+    self.types[future_admins.parameter] = AdminType.PARAMETER
+    self.types[future_admins.emergency] = AdminType.EMERGENCY
+
     self.admins = future_admins
     log ApplyAdmins(future_admins)
