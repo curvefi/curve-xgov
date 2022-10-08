@@ -96,6 +96,9 @@ def send_message(_target: address, _message: Bytes[MAXSIZE_MESSAGE], _gas_limit:
 
 @external
 def set_messenger(_messenger: CrossDomainMessenger):
+    """
+    @notice Set the OVM messenger
+    """
     assert msg.sender == self.admins.ownership
 
     self.messenger = _messenger
@@ -104,6 +107,9 @@ def set_messenger(_messenger: CrossDomainMessenger):
 
 @external
 def set_transaction_chain(_transaction_chain: CanonicalTransactionChain):
+    """
+    @notice Set the OVM CTC
+    """
     assert msg.sender == self.admins.ownership
 
     self.transaction_chain = _transaction_chain
@@ -112,6 +118,9 @@ def set_transaction_chain(_transaction_chain: CanonicalTransactionChain):
 
 @external
 def commit_admins(_admins: AdminSet):
+    """
+    @notice Commit future admins
+    """
     assert msg.sender == self.admins.ownership
 
     self.future_admins = _admins
@@ -120,6 +129,9 @@ def commit_admins(_admins: AdminSet):
 
 @external
 def apply_admins():
+    """
+    @notice Apply future admins
+    """
     admins: AdminSet = self.admins
     assert msg.sender == admins.ownership
 
