@@ -24,6 +24,12 @@ event SetTransactionChain:
     transaction_chain: CanonicalTransactionChain
 
 
+enum AdminType:
+    OWNERSHIP
+    PARAMETER
+    EMERGENCY
+
+
 struct AdminSet:
     ownership: address
     parameter: address
@@ -31,6 +37,7 @@ struct AdminSet:
 
 
 MAXSIZE: constant(uint256) = 2**16 - 1
+MAXSIZE_MESSAGE: constant(uint256) = 2**15 - 1
 
 
 admins: public(AdminSet)
@@ -49,6 +56,38 @@ def __init__(_admins: AdminSet, _messenger: CrossDomainMessenger, _transaction_c
     log ApplyAdmins(_admins)
     log SetMessenger(_messenger)
     log SetTransactionChain(_transaction_chain)
+
+
+@external
+def send_message(_target: address, _message: Bytes[MAXSIZE_MESSAGE], _gas_limit: uint32 = 0):
+
+    # NOTE: match statement would be nice
+    admin_type: AdminType = empty(AdminType)
+    if msg.sender == self.admins.ownership:
+        admin_type = AdminType.OWNERSHIP
+    elif msg.sender == self.admins.parameter:
+        admin_type = AdminType.PARAMETER
+    elif msg.sender == self.admins.emergency:
+        admin_type = AdminType.EMERGENCY
+    else:
+        raise "Not allowed."
+
+    # https://community.optimism.io/docs/developers/bridge/messaging/#for-l1-%E2%87%92-l2-transactions
+    gas_limit: uint32 = _gas_limit
+    if gas_limit == 0:
+        gas_limit = self.transaction_chain.enqueueL2GasPrepaid()
+
+    # receive_message(_admin_type: AdminType, _target: address, _message: Bytes[MAXSIZE]): nonpayable
+    self.messenger.sendMessage(
+        self,
+        _abi_encode(
+            admin_type,
+            _target,
+            _message,
+            method_id=method_id("receive_message(uint256,address,bytes)")
+        ),
+        gas_limit
+    )
 
 
 @external
