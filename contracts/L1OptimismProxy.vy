@@ -53,7 +53,7 @@ def __init__(_admins: AdminSet, _messenger: CrossDomainMessenger, _transaction_c
 
 @external
 def set_messenger(_messenger: CrossDomainMessenger):
-    assert msg.sender in [self.admins.ownership, self.admins.emergency]
+    assert msg.sender == self.admins.ownership
 
     self.messenger = _messenger
     log SetMessenger(_messenger)
@@ -61,7 +61,7 @@ def set_messenger(_messenger: CrossDomainMessenger):
 
 @external
 def set_transaction_chain(_transaction_chain: CanonicalTransactionChain):
-    assert msg.sender in [self.admins.ownership, self.admins.emergency]
+    assert msg.sender == self.admins.ownership
 
     self.transaction_chain = _transaction_chain
     log SetTransactionChain(_transaction_chain)
