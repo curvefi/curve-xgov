@@ -1,11 +1,15 @@
 pragma solidity >=0.8.0;
 
 contract CrossDomainMessenger {
+    uint256 public call_count;
+
     function sendMessage(
         address target,
         bytes calldata message,
         uint32 gasLimit
-    ) external {}
+    ) external {
+        call_count += 1;
+    }
 }
 
 contract CanonicalTransactionChain {
