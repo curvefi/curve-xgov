@@ -66,6 +66,13 @@ def __init__(_admins: AdminSet, _messenger: CrossDomainMessenger, _transaction_c
 
 @external
 def send_message(_target: address, _message: Bytes[MAXSIZE_MESSAGE], _gas_limit: uint32 = 0):
+    """
+    @notice Send a cross-chain message to Optimism
+    @dev Only callable by an admin
+    @param _target The L2 contract on optimism to call
+    @param _message The calldata to call `_target` with
+    @param _gas_limit Gas limit for the L2 cross-chain call's execution
+    """
     admin_type: AdminType = self.types[msg.sender]
     assert admin_type in (AdminType.OWNERSHIP | AdminType.PARAMETER | AdminType.EMERGENCY)
 
