@@ -1,0 +1,12 @@
+ape-arbitrum
+ape-etherscan
+ape-hardhat
+ape-infura
+ape-optimism
+ape-solidity
+ape-vyper
+black
+eth-ape
+flake8
+isort
+pre-commit
