@@ -17,6 +17,11 @@ def charlie(accounts):
 
 
 @pytest.fixture(scope="session")
+def dave(accounts):
+    yield accounts[3]
+
+
+@pytest.fixture(scope="session")
 def ZERO_ADDRESS():
     yield "0x0000000000000000000000000000000000000000"
 
