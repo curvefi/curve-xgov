@@ -2,7 +2,9 @@
 """
 @title Vault
 @author CurveFi
+@notice Holds the chain native asset and ERC20s
 """
+from vyper.interfaces import ERC20
 
 
 event CommitOwnership:
@@ -12,7 +14,7 @@ event ApplyOwnership:
     owner: address
 
 
-MAX_BYTES: constant(uint256) = 512
+NATIVE: constant(address) = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE
 
 
 owner: public(address)
@@ -26,17 +28,20 @@ def __init__(_owner: address):
     log ApplyOwnership(_owner)
 
 
-@payable
 @external
-def __default__():
-    assert len(msg.data) == 0
-
-
-@external
-def execute(_target: address, _data: Bytes[MAX_BYTES], _value: uint256):
+def transfer(_token: address, _to: address, _value: uint256):
+    """
+    @notice Transfer an asset
+    @param _token The token to transfer, or NATIVE if transferring the chain native asset
+    @param _to The destination of the asset
+    @param _value The amount of the asset to transfer
+    """
     assert msg.sender == self.owner
 
-    raw_call(_target, _data, value=_value)
+    if _token == NATIVE:
+        send(_to, _value)
+    else:
+        assert ERC20(_token).transfer(_to, _value, default_return_value=True)
 
 
 @external
@@ -55,3 +60,9 @@ def apply_future_owner():
     self.owner = future_owner
 
     log ApplyOwnership(future_owner)
+
+
+@payable
+@external
+def __default__():
+    assert len(msg.data) == 0
