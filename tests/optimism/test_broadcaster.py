@@ -25,3 +25,19 @@ def test_commit_admins_reverts(alice, bob, charlie, broadcaster):
 
     with ape.reverts():
         broadcaster.commit_admins((alice, alice, alice), sender=alice)
+
+
+def test_apply_admins(alice, bob, charlie, broadcaster):
+    broadcaster.commit_admins((charlie, bob, alice), sender=alice)
+    tx = broadcaster.apply_admins(sender=alice)
+
+    assert broadcaster.admins() == (charlie, bob, alice)
+    assert len(tx.logs) == 1
+    assert tx.logs[0]["topics"][0] == keccak("ApplyAdmins((address,address,address))".encode())
+
+
+def test_apply_admins_reverts(alice, bob, charlie, broadcaster):
+    broadcaster.commit_admins((charlie, bob, alice), sender=alice)
+
+    with ape.reverts():
+        broadcaster.apply_admins(sender=bob)
