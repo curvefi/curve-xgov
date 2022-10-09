@@ -16,3 +16,15 @@ def relayer(alice, project, agent_blueprint, mock_messenger):
 @pytest.fixture(scope="module")
 def agents(relayer):
     yield [getattr(relayer, attr + "_AGENT")() for attr in ["OWNERSHIP", "PARAMETER", "EMERGENCY"]]
+
+
+@pytest.fixture(scope="module")
+def mock_chain(alice, project):
+    yield project.MockCanonicalTransactionChain.deploy(sender=alice)
+
+
+@pytest.fixture(scope="module")
+def broadcaster(alice, bob, charlie, project, mock_chain, mock_messenger):
+    yield project.OptimismBroadcaster.deploy(
+        (alice, bob, charlie), mock_chain, mock_messenger, sender=alice
+    )
