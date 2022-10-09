@@ -4,7 +4,7 @@
 """
 
 
-prepaid: address
+prepaid: uint32
 
 
 @external
