@@ -26,7 +26,7 @@ struct Message:
 MAX_BYTES: constant(uint256) = 1000
 MAX_MESSAGES: constant(uint256) = 8
 
-CODE_OFFSET: constant(uint256) = 4
+CODE_OFFSET: constant(uint256) = 3
 
 
 MESSENGER: public(immutable(address))
