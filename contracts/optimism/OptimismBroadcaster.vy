@@ -38,7 +38,7 @@ struct Message:
     data: Bytes[MAX_BYTES]
 
 
-MAX_BYTES: constant(uint256) = 1000
+MAX_BYTES: constant(uint256) = 1024
 MAX_MESSAGES: constant(uint256) = 8
 
 
