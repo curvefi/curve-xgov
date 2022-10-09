@@ -16,3 +16,8 @@ def _set_sender(_sender: address):
 @external
 def xDomainMessageSender() -> address:
     return self.sender
+
+
+@external
+def sendMessage(_target: address, _data: Bytes[1024], _gas_limit: uint32):
+    pass
