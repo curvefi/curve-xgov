@@ -62,7 +62,4 @@ def relay(_agent: Agent, _messages: DynArray[Message, MAX_MESSAGES]):
     assert msg.sender == MESSENGER
     assert IMessenger(MESSENGER).xDomainMessageSender() == self
 
-    agent: address = self.agent[_agent]
-    assert agent != empty(address)
-
-    IAgent(agent).execute(_messages)
+    IAgent(self.agent[_agent]).execute(_messages)
