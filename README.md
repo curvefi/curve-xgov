@@ -2,6 +2,28 @@
 
 Extends the capabilities of the Curve DAO allowing it to interact with contracts on different networks.
 
+## Arbitrum
+
+### Deployment Steps
+
+1. Deploy `Agent` blueprint to Arbitrum: `ape run deploy_blueprint Agent --network https://goerli-rollup.arbitrum.io/rpc`
+2. Deploy `ArbitrumRelayer` and `Vault` to Arbitrum: `ape run arbitrum --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli-rollup.arbitrum.io/rpc`
+3. Deploy `ArbitrumBroadcaster` to Goerli: `ape run arbitrum --arb-refund <ARB_VAULT_ADDRESS> --network :goerli:infura`
+
+Note: The `ArbitrumRelayer` and the `ArbitrumBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
+preferable to generate a fresh account and use it for steps 2 and 3.
+
+### Deployment Addresses
+
+| Name                                                        | Address                                                                                                                          |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [L1 Broadcaster](contracts/arbitrum/ArbitrumBroadcaster.vy) | [](https://etherscan.io/address/)            |
+| [L2 Relayer](contracts/arbitrum/ArbitrumRelayer.vy)         | [](https://arbiscan.io/address/) |
+| [L2 Ownership Agent](contracts/Agent.vy)                    | [](https://arbiscan.io/address/) |
+| [L2 Parameter Agent](contracts/Agent.vy)                    | [](https://arbiscan.io/address/) |
+| [L2 Emergency Agent](contracts/Agent.vy)                    | [](https://arbiscan.io/address/) |
+| [L2 Vault](contracts/Vault.vy)                              | [](https://arbiscan.io/address/) |
+
 ## Optimism
 
 ### Deployment Steps
