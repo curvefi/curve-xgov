@@ -11,6 +11,9 @@ event ApplyAdmins:
 event CommitAdmins:
     future_admins: AdminSet
 
+event SetArbInbox:
+    arb_inbox: address
+
 
 enum Agent:
     OWNERSHIP
@@ -37,9 +40,11 @@ future_admins: public(AdminSet)
 
 agent: HashMap[address, Agent]
 
+arb_inbox: public(address)
+
 
 @external
-def __init__(_admins: AdminSet):
+def __init__(_admins: AdminSet, _arb_inbox: address):
     assert _admins.ownership != _admins.parameter  # a != b
     assert _admins.ownership != _admins.emergency  # a != c
     assert _admins.parameter != _admins.emergency  # b != c
@@ -50,7 +55,10 @@ def __init__(_admins: AdminSet):
     self.agent[_admins.parameter] = Agent.PARAMETER
     self.agent[_admins.emergency] = Agent.EMERGENCY
 
+    self.arb_inbox = _arb_inbox
+
     log ApplyAdmins(_admins)
+    log SetArbInbox(_arb_inbox)
 
 
 @external
@@ -61,6 +69,14 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES]):
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+
+
+@external
+def set_arb_inbox(_arb_inbox: address):
+    assert msg.sender == self.admins.ownership
+
+    self.arb_inbox = _arb_inbox
+    log SetArbInbox(_arb_inbox)
 
 
 @external
