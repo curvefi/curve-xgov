@@ -11,12 +11,15 @@ def cli(account, network, blueprint):
     chain_id = project.provider.chain_id
 
     if chain_id not in (1, 5):
-        return project.OptimismRelayer.deploy(
+        relayer = project.OptimismRelayer.deploy(
             blueprint,
             "0x4200000000000000000000000000000000000007",
             gas_limit=800_000,
             gas_price=project.provider.gas_price,
             sender=account,
+        )
+        return project.Vault.deploy(
+            relayer.OWNERSHIP_AGENT(), gas_price=project.provider.gas_price, sender=account
         )
 
     # L1
