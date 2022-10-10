@@ -4,6 +4,17 @@ Extends the capabilities of the Curve DAO allowing it to interact with contracts
 
 ## Optimism
 
+### Deployment Steps
+
+1. Deploy `Agent` blueprint to Optimism: `ape run deploy_blueprint Agent --network https://goerli.optimism.io/`
+2. Deploy `OptimismRelayer` and `Vault` to Optimism: `ape run optimism --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli.optimism.io/`
+3. Deploy `OptimismBroadcaster` to Goerli: `ape run optimism --network :goerli:infura`
+
+Note: The `OptimismRelayer` and the `OptimismBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
+preferable to generate a fresh account and use it for steps 2 and 3.
+
+### Deployment Addresses
+
 | Name                                                        | Address                                                                                                                          |
 | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0x8e1e5001C7B8920196c7E3EdF2BCf47B2B6153ff](https://etherscan.io/address/0x8e1e5001c7b8920196c7e3edf2bcf47b2b6153ff)            |
