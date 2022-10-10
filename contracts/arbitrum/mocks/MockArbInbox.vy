@@ -3,6 +3,7 @@
 
 submission_fee: uint256
 
+count: public(uint256)
 data: public(Bytes[2**32])
 
 
@@ -18,6 +19,7 @@ def unsafeCreateRetryableTicket(
     _max_fee_per_gas: uint256,
     _data: Bytes[2**24],
 ):
+    self.count += 1
     self.data = _data
 
 
