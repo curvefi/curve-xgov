@@ -5,6 +5,10 @@
 """
 
 
+interface IArbInbox:
+    def calculateRetryableSubmissionFee(_data_length: uint256, _base_fee: uint256 = 0) -> uint256: view
+
+
 event ApplyAdmins:
     admins: AdminSet
 
@@ -36,6 +40,7 @@ struct Message:
 
 MAX_BYTES: constant(uint256) = 1024
 MAX_MESSAGES: constant(uint256) = 8
+MAXSIZE: constant(uint256) = 16384
 
 
 admins: public(AdminSet)
@@ -68,13 +73,44 @@ def __init__(_admins: AdminSet, _arb_inbox: address, _arb_refund: address):
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES]):
+def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _max_fee_per_gas: uint256):
     """
     @notice Broadcast a sequence of messeages.
     @param _messages The sequence of messages to broadcast.
+    @param _gas_limit The gas limit for the execution on L2.
+    @param _max_fee_per_gas The maximum gas price bid for the execution on L2.
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+
+    # define all variables here before expanding memory enormously
+    arb_inbox: address = self.arb_inbox
+    arb_refund: address = self.arb_refund
+    submission_cost: uint256 = 0
+
+    data: Bytes[MAXSIZE] = _abi_encode(
+        agent,
+        _messages,
+        method_id=method_id("relay(uint256,(address,bytes)[])"),
+    )
+    submission_cost = IArbInbox(arb_inbox).calculateRetryableSubmissionFee(len(data))
+
+    # NOTE: using `unsafeCreateRetryableTicket` so that refund address is not aliased
+    raw_call(
+        arb_inbox,
+        _abi_encode(
+            self,  # to
+            empty(uint256),  # l2CallValue
+            submission_cost,  # maxSubmissionCost
+            arb_refund,  # excessFeeRefundAddress
+            arb_refund,  # callValueRefundAddress
+            _gas_limit,
+            _max_fee_per_gas,
+            data,
+            method_id=method_id("unsafeCreateRetryableTicket(address,uint256,uint256,address,address,uint256,uint256,bytes)"),
+        ),
+        value=submission_cost + _gas_limit * _max_fee_per_gas,
+    )
 
 
 @external
