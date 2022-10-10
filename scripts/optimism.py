@@ -1,24 +1,13 @@
-from typing import Union
-
 import click
 from ape import project
 from ape.cli import NetworkBoundCommand, account_option, network_option
 
 
-def get_blueprint_initcode(initcode: Union[str, bytes]):
-    if isinstance(initcode, str):
-        initcode = bytes.fromhex(initcode.removeprefix("0x"))
-    initcode = b"\xfe\x71\x00" + initcode  # eip-5202 preamble version 0
-    initcode = (
-        b"\x61" + len(initcode).to_bytes(2, "big") + b"\x3d\x81\x60\x0a\x3d\x39\xf3" + initcode
-    )
-    return initcode
-
-
 @click.command(cls=NetworkBoundCommand)
 @account_option()
 @network_option()
-def cli(account, network):
+@click.argument("agent_blueprint")
+def cli(account, network, agent_blueprint):
     chain_id = project.provider.chain_id
 
     # L1
@@ -45,27 +34,13 @@ def cli(account, network):
                 "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294",
             )
 
-        account.transfer(account, value="0 gwei")
         project.OptimismBroadcaster.deploy(admins, ovm_chain, ovm_messenger, sender=account)
 
         return
 
     # L2
-    initcode = get_blueprint_initcode(project.Agent.contract_type.deployment_bytecode.bytecode)
-    tx = project.provider.network.ecosystem.create_transaction(
-        chain_id=project.provider.chain_id,
-        data=initcode,
-        gas_price=project.provider.gas_price,
-        nonce=account.nonce,
-    )
-    tx.gas_limit = project.provider.estimate_gas_cost(tx)
-    tx.signature = account.sign_transaction(tx)
-
-    receipt = project.provider.send_transaction(tx)
-    click.echo(f"Agent blueprint deployed at: {receipt.contract_address}")
-
     project.OptimismRelayer.deploy(
-        receipt.contract_address,
+        agent_blueprint,
         "0x4200000000000000000000000000000000000007",
         gas_limit=800_000,
         gas_price=project.provider.gas_price,
