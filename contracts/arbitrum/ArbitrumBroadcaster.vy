@@ -14,6 +14,9 @@ event CommitAdmins:
 event SetArbInbox:
     arb_inbox: address
 
+event SetArbRefund:
+    arb_refund: address
+
 
 enum Agent:
     OWNERSHIP
@@ -41,10 +44,11 @@ future_admins: public(AdminSet)
 agent: HashMap[address, Agent]
 
 arb_inbox: public(address)
+arb_refund: public(address)
 
 
 @external
-def __init__(_admins: AdminSet, _arb_inbox: address):
+def __init__(_admins: AdminSet, _arb_inbox: address, _arb_refund: address):
     assert _admins.ownership != _admins.parameter  # a != b
     assert _admins.ownership != _admins.emergency  # a != c
     assert _admins.parameter != _admins.emergency  # b != c
@@ -56,9 +60,11 @@ def __init__(_admins: AdminSet, _arb_inbox: address):
     self.agent[_admins.emergency] = Agent.EMERGENCY
 
     self.arb_inbox = _arb_inbox
+    self.arb_refund = _arb_refund
 
     log ApplyAdmins(_admins)
     log SetArbInbox(_arb_inbox)
+    log SetArbRefund(_arb_refund)
 
 
 @external
@@ -77,6 +83,14 @@ def set_arb_inbox(_arb_inbox: address):
 
     self.arb_inbox = _arb_inbox
     log SetArbInbox(_arb_inbox)
+
+
+@external
+def set_arb_refund(_arb_refund: address):
+    assert msg.sender == self.admins.ownership
+
+    self.arb_refund = _arb_refund
+    log SetArbRefund(_arb_refund)
 
 
 @external
