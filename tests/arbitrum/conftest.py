@@ -20,7 +20,7 @@ def agents(relayer):
 
 @pytest.fixture(scope="module")
 def mock_arb_inbox(alice, project):
-    yield project.MockArbSys.deploy(sender=alice)
+    yield project.MockArbInbox.deploy(sender=alice)
 
 
 @pytest.fixture(scope="module")
