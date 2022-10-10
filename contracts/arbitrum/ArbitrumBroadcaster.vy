@@ -52,6 +52,7 @@ arb_inbox: public(address)
 arb_refund: public(address)
 
 
+@payable
 @external
 def __init__(_admins: AdminSet, _arb_inbox: address, _arb_refund: address):
     assert _admins.ownership != _admins.parameter  # a != b
@@ -165,3 +166,9 @@ def apply_admins():
 
     self.admins = future_admins
     log ApplyAdmins(future_admins)
+
+
+@payable
+@external
+def __default__():
+    assert len(msg.data) == 0
