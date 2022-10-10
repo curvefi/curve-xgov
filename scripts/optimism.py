@@ -67,6 +67,7 @@ def cli(account, network):
     project.OptimismRelayer.deploy(
         receipt.contract_address,
         "0x4200000000000000000000000000000000000007",
+        gas_limit=800_000,
         gas_price=project.provider.gas_price,
         sender=account,
     )
