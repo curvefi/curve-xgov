@@ -94,3 +94,15 @@ def test_apply_admins_reverts(alice, bob, charlie, broadcaster):
 
     with ape.reverts():
         broadcaster.apply_admins(sender=bob)
+
+
+def test_default_method_receives_ether(alice, broadcaster):
+    pre_balance = broadcaster.balance
+    alice.transfer(broadcaster, 10**18)
+
+    assert broadcaster.balance == pre_balance + 10**18
+
+
+def test_default_method_reverts_with_data(alice, broadcaster):
+    with ape.reverts():
+        alice.transfer(broadcaster, 10**18, data=b"Hello")
