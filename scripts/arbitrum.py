@@ -7,7 +7,7 @@ from ape.cli import NetworkBoundCommand, account_option, network_option
 @account_option()
 @network_option()
 @click.option("--blueprint")
-@click.argument("--arb-refund")
+@click.option("--arb-refund")
 def cli(account, network, blueprint, arb_refund):
     chain_id = project.provider.chain_id
 
