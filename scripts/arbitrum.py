@@ -15,7 +15,7 @@ def cli(account, network, blueprint, arb_refund):
         relayer = project.ArbitrumRelayer.deploy(
             blueprint,
             "0x0000000000000000000000000000000000000064",
-            gas_limit=800_000,
+            gas_limit=4_000_000,
             gas_price=project.provider.gas_price,
             sender=account,
         )
