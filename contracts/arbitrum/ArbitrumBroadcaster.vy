@@ -6,7 +6,7 @@
 
 
 interface IArbInbox:
-    def calculateRetryableSubmissionFee(_data_length: uint256, _base_fee: uint256 = 0) -> uint256: view
+    def calculateRetryableSubmissionFee(_data_length: uint256, _base_fee: uint256) -> uint256: view
 
 
 event ApplyAdmins:
@@ -94,7 +94,7 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _
         _messages,
         method_id=method_id("relay(uint256,(address,bytes)[])"),
     )
-    submission_cost = IArbInbox(arb_inbox).calculateRetryableSubmissionFee(len(data))
+    submission_cost = IArbInbox(arb_inbox).calculateRetryableSubmissionFee(len(data), block.basefee)
 
     # NOTE: using `unsafeCreateRetryableTicket` so that refund address is not aliased
     raw_call(
