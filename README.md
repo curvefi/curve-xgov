@@ -18,9 +18,23 @@ Extends the capabilities of the Curve DAO allowing it to interact with contracts
 
 ### Testnet Deployment Steps
 
-1. Deploy `Agent` blueprint to Arbitrum: `ape run deploy_blueprint Agent --network https://goerli-rollup.arbitrum.io/rpc`
-2. Deploy `ArbitrumRelayer` and `Vault` to Arbitrum: `ape run arbitrum --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli-rollup.arbitrum.io/rpc`
-3. Deploy `ArbitrumBroadcaster` to Goerli: `ape run arbitrum --arb-refund <ARB_VAULT_ADDRESS> --network :goerli:infura`
+1. Deploy `Agent` blueprint to Arbitrum
+
+   ```bash
+   $ ape run deploy_blueprint Agent --network https://goerli-rollup.arbitrum.io/rpc
+   ```
+
+2. Deploy `ArbitrumRelayer` and `Vault` to Arbitrum
+
+   ```bash
+   $ ape run arbitrum --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli-rollup.arbitrum.io/rpc
+   ```
+
+3. Deploy `ArbitrumBroadcaster` to Goerli
+
+   ```bash
+   $ ape run arbitrum --arb-refund <ARB_VAULT_ADDRESS> --network :goerli:infura
+   ```
 
 Note: The `ArbitrumRelayer` and the `ArbitrumBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
 preferable to generate a fresh account and use it for steps 2 and 3.
@@ -41,9 +55,23 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 
 ### Testnet Deployment Steps
 
-1. Deploy `Agent` blueprint to Optimism: `ape run deploy_blueprint Agent --network https://goerli.optimism.io/`
-2. Deploy `OptimismRelayer` and `Vault` to Optimism: `ape run optimism --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli.optimism.io/`
-3. Deploy `OptimismBroadcaster` to Goerli: `ape run optimism --network :goerli:infura`
+1. Deploy `Agent` blueprint to Optimism
+
+   ```bash
+   $ ape run deploy_blueprint Agent --network https://goerli.optimism.io/
+   ```
+
+2. Deploy `OptimismRelayer` and `Vault` to Optimism
+
+   ```bash
+   $ ape run optimism --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli.optimism.io/
+   ```
+
+3. Deploy `OptimismBroadcaster` to Goerli
+
+   ```bash
+   $ ape run optimism --network :goerli:infura
+   ```
 
 Note: The `OptimismRelayer` and the `OptimismBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
 preferable to generate a fresh account and use it for steps 2 and 3.
