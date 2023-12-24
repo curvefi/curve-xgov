@@ -89,3 +89,17 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 | [L2 Emergency Agent](contracts/Agent.vy)                    | [0x95F0f720CAdDED982E6998b3390E6D3788c2CE5C](https://basescan.org/address/0x95F0f720CAdDED982E6998b3390E6D3788c2CE5C) |
 | [L2 Vault](contracts/Vault.vy)                              | [0xA4c0eA0fb8eb652e11C8123E589197E18Ca78AA8](https://basescan.org/address/0xA4c0eA0fb8eb652e11C8123E589197E18Ca78AA8) |
 | [Agent Blueprint](scripts/deploy_blueprint.py)              | [0xF3BC9E5fA891977DCa765ff52E8f22A1F7d49c1f](https://basescan.org/address/0xF3BC9E5fA891977DCa765ff52E8f22A1F7d49c1f) |
+
+## Mantle
+
+### Mainnet Deployment Addresses
+
+| Name                                                        | Address                                                                                                                          |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xb50b9a0d8a4ed8115fe174f300465ea4686d86df](https://etherscan.io/address/0xb50b9a0d8a4ed8115fe174f300465ea4686d86df)            |
+| [L2 Relayer](contracts/optimism/OptimismRelayer.vy)         | [0xB50B9a0D8A4ED8115Fe174F300465Ea4686d86Df](https://explorer.mantle.xyz/address/0xB50B9a0D8A4ED8115Fe174F300465Ea4686d86Df) |
+| [L2 Ownership Agent](contracts/Agent.vy)                    | [0xfe87a6cdca1eeb90987c6a196a1c5f5c76f5f2b0](https://explorer.mantle.xyz/address/0xfe87a6cdca1eeb90987c6a196a1c5f5c76f5f2b0) |
+| [L2 Parameter Agent](contracts/Agent.vy)                    | [0x024d362f7aa162d8591304016fd60a209efc527e](https://explorer.mantle.xyz/address/0x024d362f7aa162d8591304016fd60a209efc527e) |
+| [L2 Emergency Agent](contracts/Agent.vy)                    | [0x4339b53cf7f6eec1a997ceea81165e45c1244429](https://explorer.mantle.xyz/address/0x4339b53cf7f6eec1a997ceea81165e45c1244429) |
+| [L2 Vault](contracts/Vault.vy)                              | [0x77A214bd4ee3650e5608339BBbE04b09f5546ECF](https://explorer.mantle.xyz/address/0x77A214bd4ee3650e5608339BBbE04b09f5546ECF) |
+| [Agent Blueprint](scripts/deploy_blueprint.py)              | [0x5EF72230578b3e399E6C6F4F6360edF95e83BBfd](https://explorer.mantle.xyz/address/0x5EF72230578b3e399E6C6F4F6360edF95e83BBfd) |
