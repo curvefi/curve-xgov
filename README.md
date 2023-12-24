@@ -75,3 +75,17 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 
 Note: The `OptimismRelayer` and the `OptimismBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
 preferable to generate a fresh account and use it for steps 2 and 3.
+
+## Base
+
+### Mainnet Deployment Addresses
+
+| Name                                                        | Address                                                                                                                          |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xcb843280c5037acfa67b8d4adc71484ced7c48c9](https://etherscan.io/address/0xcb843280c5037acfa67b8d4adc71484ced7c48c9)            |
+| [L2 Relayer](contracts/optimism/OptimismRelayer.vy)         | [0xCb843280C5037ACfA67b8D4aDC71484ceD7C48C9](https://basescan.org/address/0xCb843280C5037ACfA67b8D4aDC71484ceD7C48C9) |
+| [L2 Ownership Agent](contracts/Agent.vy)                    | [0x2c163fe0f079d138b9c04f780d735289344C8B80](https://basescan.org/address/0x2c163fe0f079d138b9c04f780d735289344C8B80) |
+| [L2 Parameter Agent](contracts/Agent.vy)                    | [0x7Ea4B72f04D8B02994F4EdB171Ce5F56eEdF457F](https://basescan.org/address/0x7Ea4B72f04D8B02994F4EdB171Ce5F56eEdF457F) |
+| [L2 Emergency Agent](contracts/Agent.vy)                    | [0x95F0f720CAdDED982E6998b3390E6D3788c2CE5C](https://basescan.org/address/0x95F0f720CAdDED982E6998b3390E6D3788c2CE5C) |
+| [L2 Vault](contracts/Vault.vy)                              | [0xA4c0eA0fb8eb652e11C8123E589197E18Ca78AA8](https://basescan.org/address/0xA4c0eA0fb8eb652e11C8123E589197E18Ca78AA8) |
+| [Agent Blueprint](scripts/deploy_blueprint.py)              | [0xF3BC9E5fA891977DCa765ff52E8f22A1F7d49c1f](https://basescan.org/address/0xF3BC9E5fA891977DCa765ff52E8f22A1F7d49c1f) |
