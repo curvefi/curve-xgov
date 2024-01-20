@@ -24,8 +24,8 @@ struct Message:
     data: Bytes[MAX_BYTES]
 
 
-MAX_BYTES: constant(uint256) = 512
-MAX_MESSAGES: constant(uint256) = 32
+MAX_BYTES: constant(uint256) = 1024
+MAX_MESSAGES: constant(uint256) = 8
 
 CODE_OFFSET: constant(uint256) = 3
 
