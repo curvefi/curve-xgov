@@ -131,3 +131,17 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 | [Emergency Agent](contracts/Agent.vy)          | [0x42113C6818ACb87ca3CaFDbBc6a6ae396f1548E6](https://ftmscan.com/address/0x42113C6818ACb87ca3CaFDbBc6a6ae396f1548E6) |
 | [Vault](contracts/Vault.vy)                    | [0x49C8De2D10C9A56DD9A59ab5Ca1216111276394C](https://ftmscan.com/address/0x49C8De2D10C9A56DD9A59ab5Ca1216111276394C) |
 | [Agent Blueprint](scripts/deploy_blueprint.py) | [0x0732539C8aD556594FDa6A50fA8E976cA6D514B9](https://ftmscan.com/address/0x0732539C8aD556594FDa6A50fA8E976cA6D514B9) |
+
+## Binance Smart Chain
+
+### Mainnet Deployment Addresses
+
+| Name                                           | Address                                                                                                               |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89](https://etherscan.io/address/0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89) |
+| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0x37b6d6d425438a9f8e40C8B4c06c10560967b678](https://bscscan.com/address/0x37b6d6d425438a9f8e40C8B4c06c10560967b678) |
+| [Ownership Agent](contracts/Agent.vy)          | [0xC97E2328c5701572C0DFB199b9f860d6ccD74199](https://bscscan.com/address/0xC97E2328c5701572C0DFB199b9f860d6ccD74199) |
+| [Parameter Agent](contracts/Agent.vy)          | [0x618a38a556B66FdDdcB5495Be412Df911D18eA1d](https://bscscan.com/address/0x618a38a556B66FdDdcB5495Be412Df911D18eA1d) |
+| [Emergency Agent](contracts/Agent.vy)          | [0xC940CE179f1F1bdC1EA1c02A2d0481bfD84C3280](https://bscscan.com/address/0xC940CE179f1F1bdC1EA1c02A2d0481bfD84C3280) |
+| [Vault](contracts/Vault.vy)                    | [0x44C927BacD65da570cB1F0A2F625367049525022](https://bscscan.com/address/0x44C927BacD65da570cB1F0A2F625367049525022) |
+| [Agent Blueprint](scripts/deploy_blueprint.py) | [0x3D09c5D6AE6e45d01C560342E11ef355C2763F01](https://bscscan.com/address/0x3D09c5D6AE6e45d01C560342E11ef355C2763F01) |
