@@ -117,3 +117,17 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 | [Emergency Agent](contracts/Agent.vy)          | [0x1309DB123020F0533aFAfaF11D26286d5871bEB0](https://snowtrace.io/address/0x1309DB123020F0533aFAfaF11D26286d5871bEB0) |
 | [Vault](contracts/Vault.vy)                    | [0xad422855ac8010f82F08696CA7750EfE061aa6D6](https://snowtrace.io/address/0xad422855ac8010f82F08696CA7750EfE061aa6D6) |
 | [Agent Blueprint](scripts/deploy_blueprint.py) | [0x31d13B6e3e287F506D21bBED9eA4b169971DF3fe](https://snowtrace.io/address/0x31d13B6e3e287F506D21bBED9eA4b169971DF3fe) |
+
+## Fantom
+
+### Mainnet Deployment Addresses
+
+| Name                                           | Address                                                                                                               |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89](https://etherscan.io/address/0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89) |
+| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0x002599c7D4299A268b332B3240d60308f93C99eC](https://ftmscan.com/address/0x002599c7D4299A268b332B3240d60308f93C99eC) |
+| [Ownership Agent](contracts/Agent.vy)          | [0xd62Ade30F740de7ef766008258B4b2F574A084F7](https://ftmscan.com/address/0xd62Ade30F740de7ef766008258B4b2F574A084F7) |
+| [Parameter Agent](contracts/Agent.vy)          | [0x837814ba42c6f3B39f0A5060168F7027695DDAb1](https://ftmscan.com/address/0x837814ba42c6f3B39f0A5060168F7027695DDAb1) |
+| [Emergency Agent](contracts/Agent.vy)          | [0x42113C6818ACb87ca3CaFDbBc6a6ae396f1548E6](https://ftmscan.com/address/0x42113C6818ACb87ca3CaFDbBc6a6ae396f1548E6) |
+| [Vault](contracts/Vault.vy)                    | [0x49C8De2D10C9A56DD9A59ab5Ca1216111276394C](https://ftmscan.com/address/0x49C8De2D10C9A56DD9A59ab5Ca1216111276394C) |
+| [Agent Blueprint](scripts/deploy_blueprint.py) | [0x0732539C8aD556594FDa6A50fA8E976cA6D514B9](https://ftmscan.com/address/0x0732539C8aD556594FDa6A50fA8E976cA6D514B9) |
