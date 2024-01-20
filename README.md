@@ -110,10 +110,10 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 
 | Name                                           | Address                                                                                                               |
 | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0xC03544C4C2216ea5e01F066FE402AB9040F56Fe5](https://etherscan.io/address/0xC03544C4C2216ea5e01F066FE402AB9040F56Fe5) |
-| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0xe80e7C99b620c909db2815bFdE5A9e16D760C782](https://snowtrace.io/address/0xe80e7C99b620c909db2815bFdE5A9e16D760C782) |
-| [Ownership Agent](contracts/Agent.vy)          | [0xb23fe5be7579B72C04C828720ca1F8ffdD1Adf14](https://snowtrace.io/address/0xb23fe5be7579B72C04C828720ca1F8ffdD1Adf14) |
-| [Parameter Agent](contracts/Agent.vy)          | [0x20d65cffa460Cd6F9a8F15B28A2645148DB75275](https://snowtrace.io/address/0x20d65cffa460Cd6F9a8F15B28A2645148DB75275) |
-| [Emergency Agent](contracts/Agent.vy)          | [0x7F83400A5A971652fCc43B3aeacA76A7b44EED77](https://snowtrace.io/address/0x7F83400A5A971652fCc43B3aeacA76A7b44EED77) |
-| [Vault](contracts/Vault.vy)                    | [0x28987563F563d2abcB6d74cdF37BDFB5F566Ea79](https://snowtrace.io/address/0x28987563F563d2abcB6d74cdF37BDFB5F566Ea79) |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89](https://etherscan.io/address/0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89) |
+| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0x3895064FD74a86542206C4c39eb1bf14BB9aF9a6](https://snowtrace.io/address/0x3895064FD74a86542206C4c39eb1bf14BB9aF9a6) |
+| [Ownership Agent](contracts/Agent.vy)          | [0xeD953C2849785A8AEd7bC2ee8cf5fdE776E1Dc07](https://snowtrace.io/address/0xeD953C2849785A8AEd7bC2ee8cf5fdE776E1Dc07) |
+| [Parameter Agent](contracts/Agent.vy)          | [0x33F9A2F3B85e7D4Ff4f9286a9a8525060100D855](https://snowtrace.io/address/0x33F9A2F3B85e7D4Ff4f9286a9a8525060100D855) |
+| [Emergency Agent](contracts/Agent.vy)          | [0x1309DB123020F0533aFAfaF11D26286d5871bEB0](https://snowtrace.io/address/0x1309DB123020F0533aFAfaF11D26286d5871bEB0) |
+| [Vault](contracts/Vault.vy)                    | [0xad422855ac8010f82F08696CA7750EfE061aa6D6](https://snowtrace.io/address/0xad422855ac8010f82F08696CA7750EfE061aa6D6) |
 | [Agent Blueprint](scripts/deploy_blueprint.py) | [0x31d13B6e3e287F506D21bBED9eA4b169971DF3fe](https://snowtrace.io/address/0x31d13B6e3e287F506D21bBED9eA4b169971DF3fe) |
