@@ -80,9 +80,9 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 
 ### Mainnet Deployment Addresses
 
-| Name                                                        | Address                                                                                                                          |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xcb843280c5037acfa67b8d4adc71484ced7c48c9](https://etherscan.io/address/0xcb843280c5037acfa67b8d4adc71484ced7c48c9)            |
+| Name                                                        | Address                                                                                                               |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xcb843280c5037acfa67b8d4adc71484ced7c48c9](https://etherscan.io/address/0xcb843280c5037acfa67b8d4adc71484ced7c48c9) |
 | [L2 Relayer](contracts/optimism/OptimismRelayer.vy)         | [0xCb843280C5037ACfA67b8D4aDC71484ceD7C48C9](https://basescan.org/address/0xCb843280C5037ACfA67b8D4aDC71484ceD7C48C9) |
 | [L2 Ownership Agent](contracts/Agent.vy)                    | [0x2c163fe0f079d138b9c04f780d735289344C8B80](https://basescan.org/address/0x2c163fe0f079d138b9c04f780d735289344C8B80) |
 | [L2 Parameter Agent](contracts/Agent.vy)                    | [0x7Ea4B72f04D8B02994F4EdB171Ce5F56eEdF457F](https://basescan.org/address/0x7Ea4B72f04D8B02994F4EdB171Ce5F56eEdF457F) |
@@ -94,12 +94,26 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 
 ### Mainnet Deployment Addresses
 
-| Name                                                        | Address                                                                                                                          |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xb50b9a0d8a4ed8115fe174f300465ea4686d86df](https://etherscan.io/address/0xb50b9a0d8a4ed8115fe174f300465ea4686d86df)            |
+| Name                                                        | Address                                                                                                                      |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| [L1 Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xb50b9a0d8a4ed8115fe174f300465ea4686d86df](https://etherscan.io/address/0xb50b9a0d8a4ed8115fe174f300465ea4686d86df)        |
 | [L2 Relayer](contracts/optimism/OptimismRelayer.vy)         | [0xB50B9a0D8A4ED8115Fe174F300465Ea4686d86Df](https://explorer.mantle.xyz/address/0xB50B9a0D8A4ED8115Fe174F300465Ea4686d86Df) |
 | [L2 Ownership Agent](contracts/Agent.vy)                    | [0xfe87a6cdca1eeb90987c6a196a1c5f5c76f5f2b0](https://explorer.mantle.xyz/address/0xfe87a6cdca1eeb90987c6a196a1c5f5c76f5f2b0) |
 | [L2 Parameter Agent](contracts/Agent.vy)                    | [0x024d362f7aa162d8591304016fd60a209efc527e](https://explorer.mantle.xyz/address/0x024d362f7aa162d8591304016fd60a209efc527e) |
 | [L2 Emergency Agent](contracts/Agent.vy)                    | [0x4339b53cf7f6eec1a997ceea81165e45c1244429](https://explorer.mantle.xyz/address/0x4339b53cf7f6eec1a997ceea81165e45c1244429) |
 | [L2 Vault](contracts/Vault.vy)                              | [0x77A214bd4ee3650e5608339BBbE04b09f5546ECF](https://explorer.mantle.xyz/address/0x77A214bd4ee3650e5608339BBbE04b09f5546ECF) |
 | [Agent Blueprint](scripts/deploy_blueprint.py)              | [0x5EF72230578b3e399E6C6F4F6360edF95e83BBfd](https://explorer.mantle.xyz/address/0x5EF72230578b3e399E6C6F4F6360edF95e83BBfd) |
+
+## Avalanche
+
+### Mainnet Deployment Addresses
+
+| Name                                           | Address                                                                                                               |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0xC03544C4C2216ea5e01F066FE402AB9040F56Fe5](https://etherscan.io/address/0xC03544C4C2216ea5e01F066FE402AB9040F56Fe5) |
+| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0xe80e7C99b620c909db2815bFdE5A9e16D760C782](https://snowtrace.io/address/0xe80e7C99b620c909db2815bFdE5A9e16D760C782) |
+| [Ownership Agent](contracts/Agent.vy)          | [0xb23fe5be7579B72C04C828720ca1F8ffdD1Adf14](https://snowtrace.io/address/0xb23fe5be7579B72C04C828720ca1F8ffdD1Adf14) |
+| [Parameter Agent](contracts/Agent.vy)          | [0x20d65cffa460Cd6F9a8F15B28A2645148DB75275](https://snowtrace.io/address/0x20d65cffa460Cd6F9a8F15B28A2645148DB75275) |
+| [Emergency Agent](contracts/Agent.vy)          | [0x7F83400A5A971652fCc43B3aeacA76A7b44EED77](https://snowtrace.io/address/0x7F83400A5A971652fCc43B3aeacA76A7b44EED77) |
+| [Vault](contracts/Vault.vy)                    | [0x28987563F563d2abcB6d74cdF37BDFB5F566Ea79](https://snowtrace.io/address/0x28987563F563d2abcB6d74cdF37BDFB5F566Ea79) |
+| [Agent Blueprint](scripts/deploy_blueprint.py) | [0x31d13B6e3e287F506D21bBED9eA4b169971DF3fe](https://snowtrace.io/address/0x31d13B6e3e287F506D21bBED9eA4b169971DF3fe) |
