@@ -145,3 +145,29 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 | [Emergency Agent](contracts/Agent.vy)          | [0xC940CE179f1F1bdC1EA1c02A2d0481bfD84C3280](https://bscscan.com/address/0xC940CE179f1F1bdC1EA1c02A2d0481bfD84C3280) |
 | [Vault](contracts/Vault.vy)                    | [0x44C927BacD65da570cB1F0A2F625367049525022](https://bscscan.com/address/0x44C927BacD65da570cB1F0A2F625367049525022) |
 | [Agent Blueprint](scripts/deploy_blueprint.py) | [0x3D09c5D6AE6e45d01C560342E11ef355C2763F01](https://bscscan.com/address/0x3D09c5D6AE6e45d01C560342E11ef355C2763F01) |
+
+## Kava
+
+### Mainnet Deployment Addresses
+
+| Name                                           | Address                                                                                                               |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89](https://etherscan.io/address/0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89) |
+| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0xA5961898870943c68037F6848d2D866Ed2016bcB](https://kavascan.com/address/0xA5961898870943c68037F6848d2D866Ed2016bcB) |
+| [Ownership Agent](contracts/Agent.vy)          | [0xeC6a886148B38C233B07cc6732142dccaBF1051D](https://kavascan.com/address/0xeC6a886148B38C233B07cc6732142dccaBF1051D) |
+| [Parameter Agent](contracts/Agent.vy)          | [0x6e53131F68a034873b6bFA15502aF094Ef0c5854](https://kavascan.com/address/0x6e53131F68a034873b6bFA15502aF094Ef0c5854) |
+| [Emergency Agent](contracts/Agent.vy)          | [0xA177D2bd2BD723878bD95982c0855291953f74C9](https://kavascan.com/address/0xA177D2bd2BD723878bD95982c0855291953f74C9) |
+| [Agent Blueprint](scripts/deploy_blueprint.py) | [0xC0AE3B85060530384647E9F3D63C9e1F53231f68](https://kavascan.com/address/0xC0AE3B85060530384647E9F3D63C9e1F53231f68) |
+
+## Polygon
+
+### Mainnet Deployment Addresses
+
+| Name                                           | Address                                                                                                               |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7](https://etherscan.io/address/0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7) |
+| [Relayer](contracts/xyz/XYZRelayer.vy)         | [0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7](https://polygonscan.com/address/0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7) |
+| [Ownership Agent](contracts/Agent.vy)          | [0x8cB05bFEd65b522a7cF98d590F1711A9Db43af71](https://polygonscan.com/address/0x8cB05bFEd65b522a7cF98d590F1711A9Db43af71) |
+| [Parameter Agent](contracts/Agent.vy)          | [0x3CF7c393519ea55D1E1F2c55a6395be63b1A9F9C](https://polygonscan.com/address/0x3CF7c393519ea55D1E1F2c55a6395be63b1A9F9C) |
+| [Emergency Agent](contracts/Agent.vy)          | [0x9FD6E204e08867170ddE54a8374083fF592eBD3E](https://polygonscan.com/address/0x9FD6E204e08867170ddE54a8374083fF592eBD3E) |
+| [Agent Blueprint](scripts/deploy_blueprint.py) | [0x1fE46Da288A55aAf32facc6D182fB1933B22c2E9](https://polygonscan.com/address/0x1fE46Da288A55aAf32facc6D182fB1933B22c2E9) |
