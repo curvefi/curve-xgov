@@ -17,7 +17,7 @@ def test_constructor(alice, bob, charlie, project, mock_arb_inbox):
 def test_broadcast_success(alice, bob, charlie, broadcaster, mock_arb_inbox, idx):
     msg_sender = [alice, bob, charlie][idx]
     broadcaster.broadcast([(alice.address, b"")], 100_000, 10**9, sender=msg_sender)
-    decoded = eth_abi.decode_single("(uint256,(address,bytes)[])", mock_arb_inbox.data()[4:])
+    decoded = eth_abi.decode(["uint256", "(address,bytes)[]"], mock_arb_inbox.data()[4:])
 
     assert mock_arb_inbox.count() == 1
     assert len(mock_arb_inbox.data()) < 500

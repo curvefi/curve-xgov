@@ -21,8 +21,8 @@ def test_relay_success(alice, relayer, mock_messenger, agent, agents):
     agent_addr = agents[int(math.log2(agent))]
     tx = relayer.relay(agent, [(alice.address, b"")], sender=mock_messenger)
 
-    targets = [eth_abi.decode_single("address", f.stack[-2]) for f in tx.trace if f.op == "CALL"]
-    assert {agent_addr.lower(), alice.address.lower()} == set(targets)
+    targets = [f.contract_address for f in tx.trace if f.op == "CALL"]
+    assert {agent_addr, alice.address} == set(targets)
 
 
 def test_relay_invalid_caller(alice, relayer):
