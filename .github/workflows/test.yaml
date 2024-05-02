@@ -16,4 +16,5 @@ jobs:
         with:
           node-version: 16
       - run: npm ci
+      - run: npm install --save-dev hardhat
       - run: ape test
