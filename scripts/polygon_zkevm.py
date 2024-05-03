@@ -1,12 +1,12 @@
 import click
 from ape import project
-from ape.cli import NetworkBoundCommand, account_option, network_option
+from ape.cli import ConnectedProviderCommand, account_option, network_option
 
 
 POLYGON_ZKEVM_BRIDGE = "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
 
 
-@click.command(cls=NetworkBoundCommand)
+@click.command(cls=ConnectedProviderCommand)
 @account_option()
 @network_option()
 @click.option("--blueprint")
