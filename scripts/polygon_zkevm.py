@@ -35,6 +35,11 @@ def cli(account, network, blueprint, destination_chain_id):
             "0x467947EE34aF926cF1DCac093870f613C96B1E0c",
         )
 
-    if destination_chain_id == 196:  # xlayer
+    if int(destination_chain_id) == 196:  # xlayer
         destination_network = 3
-    return project.PolygonzkEVMBroadcaster.deploy(admins, POLYGON_ZKEVM_BRIDGE, destination_network, sender=account)
+    return project.PolygonzkEVMBroadcaster.deploy(
+        admins, POLYGON_ZKEVM_BRIDGE, destination_network,
+        sender=account,
+        max_priority_fee="1 gwei",
+        max_fee="20 gwei",
+    )
