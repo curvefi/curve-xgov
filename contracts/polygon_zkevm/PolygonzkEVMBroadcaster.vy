@@ -55,8 +55,8 @@ future_admins: public(AdminSet)
 
 agent: public(HashMap[address, Agent])
 
-polygon_zkevm_bridge: public(PolygonZkEVMBridge)
-destination_network: public(uint32)
+POLYGON_ZKEVM_BRIDGE: public(immutable(PolygonZkEVMBridge))
+DESTINATION_NETWORK: public(immutable(uint32))
 
 
 @external
@@ -71,8 +71,8 @@ def __init__(_admins: AdminSet, _polygon_zkevm_bridge: PolygonZkEVMBridge, _dest
     self.agent[_admins.parameter] = Agent.PARAMETER
     self.agent[_admins.emergency] = Agent.EMERGENCY
 
-    self.polygon_zkevm_bridge = _polygon_zkevm_bridge
-    self.destination_network = _destination_network
+    POLYGON_ZKEVM_BRIDGE = _polygon_zkevm_bridge
+    DESTINATION_NETWORK = _destination_network
 
     log ApplyAdmins(_admins)
 
@@ -82,11 +82,12 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=Fa
     """
     @notice Broadcast a sequence of messages.
     @param _messages The sequence of messages to broadcast.
+    @param _force_update Indicates if the new global exit root is updated or not (forceUpdateGlobalExitRoot)
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
 
-    self.polygon_zkevm_bridge.bridgeMessage(self.destination_network, self, _force_update,
+    POLYGON_ZKEVM_BRIDGE.bridgeMessage(DESTINATION_NETWORK, self, _force_update,
         _abi_encode(  # relay(uint256,(address,bytes)[])
             agent,
             _messages,
@@ -95,22 +96,6 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=Fa
     )
 
     log Broadcast(agent, _messages)
-
-
-@external
-def set_new_bridge(_new_bridge: PolygonZkEVMBridge):
-    assert msg.sender == self.admins.ownership
-
-    self.polygon_zkevm_bridge = _new_bridge
-    log SetNewBridge(_new_bridge)
-
-
-@external
-def set_destination_network(_new_network: uint32):
-    assert msg.sender == self.admins.ownership
-
-    self.destination_network = _new_network
-    log SetNewDestinationNetwork(_new_network)
 
 
 @external
