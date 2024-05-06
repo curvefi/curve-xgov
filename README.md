@@ -76,6 +76,21 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 Note: The `OptimismRelayer` and the `OptimismBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
 preferable to generate a fresh account and use it for steps 2 and 3.
 
+## X layer
+
+### Mainnet Deployment Addresses
+
+| Name                                                            | Address                                                                                                               |
+|-----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| [L1 Broadcaster](contracts/optimism/PolygonzkEVMBroadcaster.vy) | [0x9D9e70CA10fE911Dee9869F21e5ebB24A9519Ade](https://etherscan.io/address/0x9D9e70CA10fE911Dee9869F21e5ebB24A9519Ade) |
+| [L2 Relayer](contracts/optimism/PolygonzkEVMRelayer.vy)         | [0x9D9e70CA10fE911Dee9869F21e5ebB24A9519Ade](https://www.okx.com/explorer/xlayer/address/0x9D9e70CA10fE911Dee9869F21e5ebB24A9519Ade) |
+| [L2 Ownership Agent](contracts/Agent.vy)                        | [0x6628b9e7c0029cea234b382be17101648f32cd8f](https://www.okx.com/explorer/xlayer/address/0x6628b9e7c0029cea234b382be17101648f32cd8f) |
+| [L2 Parameter Agent](contracts/Agent.vy)                        | [0xccc4864762412f3273bf7ca9264295909504ebb5](https://www.okx.com/explorer/xlayer/address/0xccc4864762412f3273bf7ca9264295909504ebb5) |
+| [L2 Emergency Agent](contracts/Agent.vy)                        | [0x9ffc6f671d88593aae56d9d34f2b40d7a56d467f](https://www.okx.com/explorer/xlayer/address/0x9ffc6f671d88593aae56d9d34f2b40d7a56d467f) |
+| [L2 Vault](contracts/Vault.vy)                                  | [0x0848F3800F04b3ad4309A5f27814be7FC4740cB9](https://www.okx.com/explorer/xlayer/address/0x0848F3800F04b3ad4309A5f27814be7FC4740cB9) |
+| [Agent Blueprint](scripts/deploy_agent.py)                      | [0x0199429171bce183048dccf1d5546ca519ea9717](https://www.okx.com/explorer/xlayer/address/0x0199429171bce183048dccf1d5546ca519ea9717) |
+
+
 ## Base
 
 ### Mainnet Deployment Addresses
