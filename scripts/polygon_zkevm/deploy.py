@@ -1,12 +1,11 @@
 import click
 from ape import project
-from ape.cli import NetworkBoundCommand, account_option, network_option
+from ape.cli import ConnectedProviderCommand, account_option, network_option
+
+from . import POLYGON_ZKEVM_BRIDGE, get_destination_network
 
 
-POLYGON_ZKEVM_BRIDGE = "0x2a3DD3EB832aF982ec71669E178424b10Dca2EDe"
-
-
-@click.command(cls=NetworkBoundCommand)
+@click.command(cls=ConnectedProviderCommand)
 @account_option()
 @network_option()
 @click.option("--blueprint")
@@ -35,10 +34,8 @@ def cli(account, network, blueprint, destination_chain_id):
             "0x467947EE34aF926cF1DCac093870f613C96B1E0c",
         )
 
-    if int(destination_chain_id) == 196:  # xlayer
-        destination_network = 3
     return project.PolygonzkEVMBroadcaster.deploy(
-        admins, POLYGON_ZKEVM_BRIDGE, destination_network,
+        admins, POLYGON_ZKEVM_BRIDGE, get_destination_network(destination_chain_id),
         sender=account,
         max_priority_fee="1 gwei",
         max_fee="20 gwei",
