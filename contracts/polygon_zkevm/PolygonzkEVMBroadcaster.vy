@@ -78,9 +78,10 @@ def __init__(_admins: AdminSet, _polygon_zkevm_bridge: PolygonZkEVMBridge, _dest
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=False):
+def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=True):
     """
     @notice Broadcast a sequence of messages.
+    @dev Save `depositCount` from POLYGON_ZKEVM_BRIDGE.BridgeEvent to claim message on destination chain
     @param _messages The sequence of messages to broadcast.
     @param _force_update Indicates if the new global exit root is updated or not (forceUpdateGlobalExitRoot)
     """
