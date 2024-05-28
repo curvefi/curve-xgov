@@ -20,7 +20,7 @@ def test_broadcast_success(
 
     tx = broadcaster.broadcast([(alice.address, b"")], force_update, sender=msg_sender)
 
-    decoded = eth_abi.decode_single("(uint256,(address,bytes)[])", mock_bridge.metadata()[4:])
+    decoded = eth_abi.decode(["uint256", "(address,bytes)[]"], mock_bridge.metadata()[4:])
 
     assert mock_bridge.count() == 1
     assert len(mock_bridge.metadata()) < 500

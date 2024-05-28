@@ -24,10 +24,8 @@ def test_broadcast_success(
     tx = broadcaster.broadcast([(alice.address, b"")], gas_limit, sender=msg_sender)
 
     tx_trace = list(tx.trace)
-    staticcall_targets = {
-        eth_abi.decode_single("address", f.stack[-2]) for f in tx_trace if f.op == "STATICCALL"
-    }
-    decoded = eth_abi.decode_single("(uint256,(address,bytes)[])", mock_messenger.data()[4:])
+    staticcall_targets = {f.contract_address for f in tx_trace if f.op == "STATICCALL"}
+    decoded = eth_abi.decode(["uint256", "(address,bytes)[]"], mock_messenger.data()[4:])
 
     assert mock_messenger.count() == 1
     assert len(mock_messenger.data()) < 500
@@ -36,9 +34,9 @@ def test_broadcast_success(
     assert decoded[1] == ((alice.address.lower(), b""),)
 
     if gas_limit == 0:
-        assert mock_chain.address.lower() in staticcall_targets
+        assert mock_chain.address in staticcall_targets
     else:
-        assert mock_chain.address.lower() not in staticcall_targets
+        assert mock_chain.address not in staticcall_targets
 
 
 def test_broadcast_reverts(dave, broadcaster):

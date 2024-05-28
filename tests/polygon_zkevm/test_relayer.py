@@ -27,8 +27,8 @@ def test_relay_success(alice, bob, relayer, mock_bridge, agent, agents, broadcas
     mock_bridge._set_origin_address(relayer, sender=alice)
     tx = mock_bridge.claimMessage(sender=alice)
 
-    targets = [eth_abi.decode_single("address", f.stack[-2]) for f in tx.trace if f.op == "CALL"]
-    assert {relayer.address.lower(), agent_addr.lower(), alice.address.lower()} == set(targets)
+    targets = [f.contract_address for f in tx.trace if f.op == "CALL"]
+    assert {relayer.address, agent_addr, alice.address} == set(targets)
 
     # invalid caller
     with ape.reverts():
