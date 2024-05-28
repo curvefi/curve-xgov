@@ -1,9 +1,9 @@
 import click
 from ape import project
-from ape.cli import NetworkBoundCommand, account_option, network_option
+from ape.cli import ConnectedProviderCommand, account_option, network_option
 
 
-@click.command(cls=NetworkBoundCommand)
+@click.command(cls=ConnectedProviderCommand)
 @account_option()
 @network_option()
 @click.option("--blueprint")
