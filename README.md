@@ -91,6 +91,22 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 | [Agent Blueprint](scripts/deploy_agent.py)                      | [0x0199429171bce183048dccf1d5546ca519ea9717](https://www.okx.com/explorer/xlayer/address/0x0199429171bce183048dccf1d5546ca519ea9717) |
 
 
+## Gnosis (xdai)
+
+### Mainnet Deployment Addresses
+
+| Name                                                    | Address                                                                                                                        |
+|---------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| [L1 Broadcaster](contracts/gnosis/GnosisBroadcaster.vy) | [0x22089A449ABdAd415d3B8476A501BFe70870C1a7](https://eth.blockscout.com/address/0x22089A449ABdAd415d3B8476A501BFe70870C1a7)    |
+| [L2 Relayer](contracts/gnosis/GnosisRelayer.vy)         | [0x22089A449ABdAd415d3B8476A501BFe70870C1a7](https://gnosis.blockscout.com/address/0x22089A449ABdAd415d3B8476A501BFe70870C1a7) |
+| [L2 Ownership Agent](contracts/Agent.vy)                | [0x383544581A70d2C4E4688d2C5C18C3941e0c8637](https://gnosis.blockscout.com/address/0x383544581A70d2C4E4688d2C5C18C3941e0c8637) |
+| [L2 Parameter Agent](contracts/Agent.vy)                | [0x91304259119506185Fd74e3950bdd65A7e03E15E](https://gnosis.blockscout.com/address/0x91304259119506185Fd74e3950bdd65A7e03E15E) |
+| [L2 Emergency Agent](contracts/Agent.vy)                | [0xEFDA01FE1dE71c9bDcFd78A58EA34d9F8f8bde90](https://gnosis.blockscout.com/address/0xEFDA01FE1dE71c9bDcFd78A58EA34d9F8f8bde90) |
+| [L2 Vault](contracts/Vault.vy)                          | [0x0B8c6A25904a1b8A0712Bc857390130a438c52AA](https://gnosis.blockscout.com/address/0x0B8c6A25904a1b8A0712Bc857390130a438c52AA) |
+| [Agent Blueprint](scripts/deploy_agent.py)              | [0x61951AC5664c7a7d7aB7df9892a82a5fCd622Bb2](https://gnosis.blockscout.com/address/0x61951AC5664c7a7d7aB7df9892a82a5fCd622Bb2) |
+
+
+
 ## Base
 
 ### Mainnet Deployment Addresses
