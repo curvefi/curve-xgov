@@ -6,19 +6,18 @@ import pytest
 from eth_utils import keccak
 
 
-def test_constructor(alice, bob, charlie, broadcaster, mock_bridge):
+def test_constructor(alice, bob, charlie, broadcaster, relayer, mock_bridge):
     assert broadcaster.admins() == (alice, bob, charlie)
+    assert broadcaster.relayer() == relayer
     assert broadcaster.POLYGON_ZKEVM_BRIDGE() == mock_bridge
     assert broadcaster.DESTINATION_NETWORK() == 3
 
 
 @pytest.mark.parametrize("idx,force_update", itertools.product(range(3), [False, True]))
-def test_broadcast_success(
-    alice, bob, charlie, broadcaster, mock_bridge, idx, force_update
-):
+def test_broadcast_success(alice, bob, charlie, broadcaster, mock_bridge, idx, force_update):
     msg_sender = [alice, bob, charlie][idx]
 
-    tx = broadcaster.broadcast([(alice.address, b"")], force_update, sender=msg_sender)
+    broadcaster.broadcast([(alice.address, b"")], force_update, sender=msg_sender)
 
     decoded = eth_abi.decode(["uint256", "(address,bytes)[]"], mock_bridge.metadata()[4:])
 

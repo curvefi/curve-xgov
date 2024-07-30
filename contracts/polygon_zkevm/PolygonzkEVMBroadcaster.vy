@@ -14,6 +14,10 @@ event Broadcast:
     messages: DynArray[Message, MAX_MESSAGES]
 
 
+event SetRelayer:
+    relayer: address
+
+
 event SetNewBridge:
     new_bridge: PolygonZkEVMBridge
 
@@ -53,6 +57,7 @@ MAX_MESSAGE_RECEIVED: constant(uint256) = 9400
 admins: public(AdminSet)
 future_admins: public(AdminSet)
 
+relayer: public(address)
 agent: public(HashMap[address, Agent])
 
 POLYGON_ZKEVM_BRIDGE: public(immutable(PolygonZkEVMBridge))
@@ -78,7 +83,7 @@ def __init__(_admins: AdminSet, _polygon_zkevm_bridge: PolygonZkEVMBridge, _dest
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=True):
+def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=True, _relayer: address=empty(address)):
     """
     @notice Broadcast a sequence of messages.
     @dev Save `depositCount` from POLYGON_ZKEVM_BRIDGE.BridgeEvent to claim message on destination chain
@@ -87,8 +92,12 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=Tr
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+    relayer: address = _relayer
+    if relayer == empty(address):
+        relayer = self.relayer
+    assert relayer != empty(address)
 
-    POLYGON_ZKEVM_BRIDGE.bridgeMessage(DESTINATION_NETWORK, self, _force_update,
+    POLYGON_ZKEVM_BRIDGE.bridgeMessage(DESTINATION_NETWORK, relayer, _force_update,
         _abi_encode(  # relay(uint256,(address,bytes)[])
             agent,
             _messages,
@@ -97,6 +106,19 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=Tr
     )
 
     log Broadcast(agent, _messages)
+
+
+@external
+def set_relayer(_relayer: address):
+    """
+    @notice Set relayer address on child chain. Should be set once.
+    """
+    # Initially anyone can set but if front-ran need to set by DAO
+    if self.relayer != empty(address):
+        assert msg.sender == self.admins.ownership
+
+    self.relayer = _relayer
+    log SetRelayer(_relayer)
 
 
 @external

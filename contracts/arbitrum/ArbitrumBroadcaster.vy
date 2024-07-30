@@ -9,6 +9,9 @@ interface IArbInbox:
     def calculateRetryableSubmissionFee(_data_length: uint256, _base_fee: uint256) -> uint256: view
 
 
+event SetRelayer:
+    relayer: address
+
 event ApplyAdmins:
     admins: AdminSet
 
@@ -46,6 +49,7 @@ MAXSIZE: constant(uint256) = 16384
 admins: public(AdminSet)
 future_admins: public(AdminSet)
 
+relayer: public(address)
 agent: HashMap[address, Agent]
 
 arb_inbox: public(address)
@@ -74,15 +78,20 @@ def __init__(_admins: AdminSet, _arb_inbox: address, _arb_refund: address):
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _max_fee_per_gas: uint256):
+def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _max_fee_per_gas: uint256, _relayer: address=empty(address)):
     """
-    @notice Broadcast a sequence of messeages.
+    @notice Broadcast a sequence of messages.
     @param _messages The sequence of messages to broadcast.
     @param _gas_limit The gas limit for the execution on L2.
     @param _max_fee_per_gas The maximum gas price bid for the execution on L2.
+    @param _relayer Relayer address in case of multiple relayers deployed.
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+    relayer: address = _relayer
+    if relayer == empty(address):
+        relayer = self.relayer
+    assert relayer != empty(address)
 
     # define all variables here before expanding memory enormously
     arb_inbox: address = self.arb_inbox
@@ -100,7 +109,7 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _
     raw_call(
         arb_inbox,
         _abi_encode(
-            self,  # to
+            relayer,  # to
             empty(uint256),  # l2CallValue
             submission_cost,  # maxSubmissionCost
             arb_refund,  # excessFeeRefundAddress
@@ -112,6 +121,19 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _
         ),
         value=submission_cost + _gas_limit * _max_fee_per_gas,
     )
+
+
+@external
+def set_relayer(_relayer: address):
+    """
+    @notice Set relayer address on child chain. Should be set once.
+    """
+    # Initially anyone can set but if front-ran need to set by DAO
+    if self.relayer != empty(address):
+        assert msg.sender == self.admins.ownership
+
+    self.relayer = _relayer
+    log SetRelayer(_relayer)
 
 
 @external

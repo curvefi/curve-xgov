@@ -4,11 +4,9 @@ import pytest
 from eth_utils import keccak
 
 
-def test_constructor(alice, bob, charlie, project, mock_arb_inbox):
-    broadcaster = project.ArbitrumBroadcaster.deploy(
-        (alice, bob, charlie), mock_arb_inbox, alice, sender=alice, value=10**18
-    )
+def test_constructor(alice, bob, charlie, broadcaster, relayer, mock_arb_inbox):
     assert broadcaster.admins() == (alice, bob, charlie)
+    assert broadcaster.relayer() == relayer
     assert broadcaster.arb_inbox() == mock_arb_inbox
     assert broadcaster.arb_refund() == alice
 

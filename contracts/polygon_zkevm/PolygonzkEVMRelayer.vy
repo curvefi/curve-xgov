@@ -42,12 +42,15 @@ EMERGENCY_AGENT: public(immutable(address))
 
 
 agent: HashMap[Agent, address]
+
+BROADCASTER: public(immutable(address))
 MESSENGER: public(immutable(address))
 ORIGIN_NETWORK: public(immutable(uint32))
 
 
 @external
-def __init__(_agent_blueprint: address, _messenger: address, _origin_network: uint32):
+def __init__(_broadcaster: address, _agent_blueprint: address, _messenger: address, _origin_network: uint32):
+    BROADCASTER = _broadcaster
     MESSENGER = _messenger
     log SetMessenger(_messenger)
     ORIGIN_NETWORK = _origin_network
@@ -78,7 +81,7 @@ def relay(_agent: Agent, _messages: DynArray[Message, MAX_MESSAGES]):
 @external
 def onMessageReceived(_origin_address: address, _origin_network: uint32, _data: Bytes[MAX_MESSAGE_RECEIVED]):
     assert msg.sender == MESSENGER
-    assert _origin_address == self
+    assert _origin_address == BROADCASTER
     assert _origin_network == ORIGIN_NETWORK
 
     raw_call(self, _data)  # .relay()

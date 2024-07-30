@@ -15,6 +15,9 @@ event ApplyAdmins:
 event CommitAdmins:
     future_admins: AdminSet
 
+event SetRelayer:
+    relayer: address
+
 event SetOVMChain:
     ovm_chain: address
 
@@ -45,6 +48,7 @@ MAX_MESSAGES: constant(uint256) = 8
 admins: public(AdminSet)
 future_admins: public(AdminSet)
 
+relayer: public(address)
 agent: HashMap[address, Agent]
 
 ovm_chain: public(address)  # CanonicalTransactionChain
@@ -72,14 +76,18 @@ def __init__(_admins: AdminSet, _ovm_chain: address, _ovm_messenger: address):
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0):
+def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0, _relayer: address=empty(address)):
     """
-    @notice Broadcast a sequence of messeages.
+    @notice Broadcast a sequence of messages.
     @param _messages The sequence of messages to broadcast.
     @param _gas_limit The L2 gas limit required to execute the sequence of messages.
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+    relayer: address = _relayer
+    if relayer == empty(address):
+        relayer = self.relayer
+    assert relayer != empty(address)
 
     # https://community.optimism.io/docs/developers/bridge/messaging/#for-l1-%E2%87%92-l2-transactions
     gas_limit: uint32 = _gas_limit
@@ -89,7 +97,7 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0
     raw_call(
         self.ovm_messenger,
         _abi_encode(  # sendMessage(address,bytes,uint32)
-            self,
+            relayer,
             _abi_encode(  # relay(uint256,(address,bytes)[])
                 agent,
                 _messages,
@@ -99,6 +107,19 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0
             method_id=method_id("sendMessage(address,bytes,uint32)"),
         ),
     )
+
+
+@external
+def set_relayer(_relayer: address):
+    """
+    @notice Set relayer address on child chain. Should be set once.
+    """
+    # Initially anyone can set but if front-ran need to set by DAO
+    if self.relayer != empty(address):
+        assert msg.sender == self.admins.ownership
+
+    self.relayer = _relayer
+    log SetRelayer(_relayer)
 
 
 @external

@@ -30,6 +30,7 @@ MAX_MESSAGES: constant(uint256) = 8
 CODE_OFFSET: constant(uint256) = 3
 
 
+BROADCASTER: public(immutable(address))
 ARBSYS: public(immutable(address))
 
 OWNERSHIP_AGENT: public(immutable(address))
@@ -41,7 +42,8 @@ agent: HashMap[Agent, address]
 
 
 @external
-def __init__(_agent_blueprint: address, _arbsys: address):
+def __init__(broadcaster: address, _agent_blueprint: address, _arbsys: address):
+    BROADCASTER = broadcaster
     ARBSYS = _arbsys
 
     OWNERSHIP_AGENT = create_from_blueprint(_agent_blueprint, code_offset=CODE_OFFSET)
@@ -61,6 +63,6 @@ def relay(_agent: Agent, _messages: DynArray[Message, MAX_MESSAGES]):
     @param _messages The sequence of messages to relay.
     """
     assert IArbSys(ARBSYS).wasMyCallersAddressAliased()
-    assert IArbSys(ARBSYS).myCallersAddressWithoutAliasing() == self
+    assert IArbSys(ARBSYS).myCallersAddressWithoutAliasing() == BROADCASTER
 
     IAgent(self.agent[_agent]).execute(_messages)

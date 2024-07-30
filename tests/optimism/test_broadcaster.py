@@ -6,11 +6,9 @@ import pytest
 from eth_utils import keccak
 
 
-def test_constructor(alice, bob, charlie, project, mock_chain, mock_messenger):
-    broadcaster = project.OptimismBroadcaster.deploy(
-        (alice, bob, charlie), mock_chain, mock_messenger, sender=alice
-    )
+def test_constructor(alice, bob, charlie, broadcaster, relayer, mock_chain, mock_messenger):
     assert broadcaster.admins() == (alice, bob, charlie)
+    assert broadcaster.relayer() == relayer
     assert broadcaster.ovm_chain() == mock_chain
     assert broadcaster.ovm_messenger() == mock_messenger
 
