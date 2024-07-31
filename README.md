@@ -8,6 +8,7 @@ Updated version for deploy via curve-lite.
 | Rollup        | Broadcaster                                                                                                           |
 |---------------|-----------------------------------------------------------------------------------------------------------------------|
 | Polygon zkEVM | [0xB5e7fE8eA8ECbd33504485756fCabB5f5D29C051](https://etherscan.io/address/0xB5e7fE8eA8ECbd33504485756fCabB5f5D29C051) |
+| Optimism      | [0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9](https://etherscan.io/address/0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9) |
 
 
 # Others

@@ -8,7 +8,7 @@ ape run polygon_zkevm deploy_broadcaster --network <ethereum>
 
 3. Set `Relayer` in `Broadcaster` 
 ```bash
-ape run polygon_zkevm set_destination --chain_id <destination chain ID> --relayer <relayer from previous step> --network <ethereum>
+ape run polygon_zkevm set_destination --chain_id <destination chain ID> --relayer <relayer from destination deployment> --network <ethereum>
 ```
 
 4. Uncomment correct admins and set
@@ -33,7 +33,7 @@ ape run polygon_zkevm deploy_destination --blueprint <AGENT_BLUEPRINT_ADDRESS> -
 ## Claim message on destination chain
 Save `depositCount` from PolygonZkEVMBridge.BridgeEvent to claim message on destination chain:
 ```bash
-ape run polygon_zkevm claim_message --deposit_cnt <depositCount> --network <network>
+ape run polygon_zkevm claim_message --deposit_cnt <depositCount> --network <destination network>
 ```
 
 Example:

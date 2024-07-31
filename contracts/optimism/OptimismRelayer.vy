@@ -9,6 +9,10 @@
 version: public(constant(String[8])) = "1.0.1"
 
 
+event Relay:
+    agent: Agent
+    messages: DynArray[Message, MAX_MESSAGES]
+
 interface IAgent:
     def execute(_messages: DynArray[Message, MAX_MESSAGES]): nonpayable
 
@@ -69,3 +73,5 @@ def relay(_agent: Agent, _messages: DynArray[Message, MAX_MESSAGES]):
     assert IMessenger(MESSENGER).xDomainMessageSender() == BROADCASTER
 
     IAgent(self.agent[_agent]).execute(_messages)
+
+    log Relay(_agent, _messages)
