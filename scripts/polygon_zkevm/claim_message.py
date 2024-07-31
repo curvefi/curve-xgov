@@ -1,7 +1,6 @@
 import click
 import requests
-
-from ape import project, Contract
+from ape import Contract, project
 from ape.cli import ConnectedProviderCommand, account_option, network_option
 
 from . import BRIDGE_ABI, POLYGON_ZKEVM_BRIDGE, get_bridge_url
@@ -11,7 +10,7 @@ from . import BRIDGE_ABI, POLYGON_ZKEVM_BRIDGE, get_bridge_url
 @account_option()
 @network_option()
 @click.option("--deposit_cnt")
-def cli(account, network, deposit_cnt):
+def cli(account, deposit_cnt):
     chain_id = project.provider.chain_id
 
     if chain_id not in (1,):
@@ -33,7 +32,7 @@ def cli(account, network, deposit_cnt):
         bridge.claimMessage(
             proof["proof"]["merkle_proof"],
             proof["proof"]["rollup_merkle_proof"],
-            status["global_index"],
+            status["global_index"] or 2 ** 64 + int(deposit_cnt),
             proof["proof"]["main_exit_root"],
             proof["proof"]["rollup_exit_root"],
             status["orig_net"],

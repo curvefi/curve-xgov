@@ -2,6 +2,16 @@
 
 Extends the capabilities of the Curve DAO allowing it to interact with contracts on different networks.
 
+# Generic
+Updated version for deploy via curve-lite.
+
+| Rollup        | Broadcaster                                                                                                           |
+|---------------|-----------------------------------------------------------------------------------------------------------------------|
+| Polygon zkEVM | [0xB5e7fE8eA8ECbd33504485756fCabB5f5D29C051](https://etherscan.io/address/0xB5e7fE8eA8ECbd33504485756fCabB5f5D29C051) |
+
+
+# Others
+
 ## Arbitrum
 
 ### Mainnet Deployment Addresses
