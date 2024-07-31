@@ -23,7 +23,7 @@ def test_relay_success(alice, bob, relayer, mock_bridge, agent, agents, broadcas
         ["uint256", "(address,bytes)[]"], [agent, [(alice.address, b"")]]
     )
 
-    mock_bridge.bridgeMessage(3, relayer.address, False, data, sender=broadcaster)
+    mock_bridge.bridgeMessage(1, relayer.address, False, data, sender=broadcaster)
     mock_bridge._set_destination_address(relayer, sender=alice)
     mock_bridge._set_origin_address(broadcaster, sender=alice)
     tx = mock_bridge.claimMessage(sender=alice)
@@ -40,7 +40,7 @@ def test_relay_success(alice, bob, relayer, mock_bridge, agent, agents, broadcas
         relayer.onMessageReceived(broadcaster.address, 0, data, sender=alice)
 
     # invalid sender
-    mock_bridge.bridgeMessage(3, relayer.address, False, data, sender=bob)
+    mock_bridge.bridgeMessage(1, relayer.address, False, data, sender=bob)
     mock_bridge._set_destination_address(relayer, sender=alice)
     mock_bridge._set_origin_address(alice, sender=alice)
     with ape.reverts():
@@ -48,7 +48,7 @@ def test_relay_success(alice, bob, relayer, mock_bridge, agent, agents, broadcas
 
     # invalid origin network
     mock_bridge._set_origin_network(2, sender=alice)
-    mock_bridge.bridgeMessage(3, relayer.address, False, data, sender=broadcaster)
+    mock_bridge.bridgeMessage(1, relayer.address, False, data, sender=broadcaster)
     mock_bridge._set_destination_address(relayer, sender=alice)
     mock_bridge._set_origin_address(relayer, sender=alice)
     with ape.reverts():

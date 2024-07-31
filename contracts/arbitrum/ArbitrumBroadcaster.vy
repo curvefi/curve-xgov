@@ -1,4 +1,4 @@
-# @version 0.3.7
+# @version 0.3.10
 """
 @title Arbitrum Broadcaster
 @author CurveFi
@@ -9,20 +9,20 @@ interface IArbInbox:
     def calculateRetryableSubmissionFee(_data_length: uint256, _base_fee: uint256) -> uint256: view
 
 
-event SetRelayer:
-    relayer: address
+event Broadcast:
+    chain_id: indexed(uint256)
+    agent: indexed(Agent)
+    messages: DynArray[Message, MAX_MESSAGES]
+
+event SetDestinationData:
+    chain_id: indexed(uint256)
+    data: DestinationData
 
 event ApplyAdmins:
     admins: AdminSet
 
 event CommitAdmins:
     future_admins: AdminSet
-
-event SetArbInbox:
-    arb_inbox: address
-
-event SetArbRefund:
-    arb_refund: address
 
 
 enum Agent:
@@ -40,6 +40,11 @@ struct Message:
     target: address
     data: Bytes[MAX_BYTES]
 
+struct DestinationData:
+    arb_inbox: IArbInbox
+    arb_refund: address
+    relayer: address
+
 
 MAX_BYTES: constant(uint256) = 1024
 MAX_MESSAGES: constant(uint256) = 8
@@ -49,16 +54,13 @@ MAXSIZE: constant(uint256) = 16384
 admins: public(AdminSet)
 future_admins: public(AdminSet)
 
-relayer: public(address)
+destination_data: public(HashMap[uint256, DestinationData])
 agent: HashMap[address, Agent]
-
-arb_inbox: public(address)
-arb_refund: public(address)
 
 
 @payable
 @external
-def __init__(_admins: AdminSet, _arb_inbox: address, _arb_refund: address):
+def __init__(_admins: AdminSet):
     assert _admins.ownership != _admins.parameter  # a != b
     assert _admins.ownership != _admins.emergency  # a != c
     assert _admins.parameter != _admins.emergency  # b != c
@@ -69,33 +71,27 @@ def __init__(_admins: AdminSet, _arb_inbox: address, _arb_refund: address):
     self.agent[_admins.parameter] = Agent.PARAMETER
     self.agent[_admins.emergency] = Agent.EMERGENCY
 
-    self.arb_inbox = _arb_inbox
-    self.arb_refund = _arb_refund
-
     log ApplyAdmins(_admins)
-    log SetArbInbox(_arb_inbox)
-    log SetArbRefund(_arb_refund)
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _max_fee_per_gas: uint256, _relayer: address=empty(address)):
+def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _max_fee_per_gas: uint256, _destination_data: DestinationData=empty(DestinationData)):
     """
     @notice Broadcast a sequence of messages.
+    @param _chain_id Chain ID of L2
     @param _messages The sequence of messages to broadcast.
     @param _gas_limit The gas limit for the execution on L2.
     @param _max_fee_per_gas The maximum gas price bid for the execution on L2.
-    @param _relayer Relayer address in case of multiple relayers deployed.
+    @param _destination_data Specific DestinationData (self.destination_data by default)
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
-    relayer: address = _relayer
-    if relayer == empty(address):
-        relayer = self.relayer
-    assert relayer != empty(address)
+    destination: DestinationData = _destination_data
+    if destination.relayer == empty(address):
+        destination = self.destination_data[_chain_id]
+    assert destination.relayer != empty(address)
 
     # define all variables here before expanding memory enormously
-    arb_inbox: address = self.arb_inbox
-    arb_refund: address = self.arb_refund
     submission_cost: uint256 = 0
 
     data: Bytes[MAXSIZE] = _abi_encode(
@@ -103,17 +99,17 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _
         _messages,
         method_id=method_id("relay(uint256,(address,bytes)[])"),
     )
-    submission_cost = IArbInbox(arb_inbox).calculateRetryableSubmissionFee(len(data), block.basefee)
+    submission_cost = destination.arb_inbox.calculateRetryableSubmissionFee(len(data), block.basefee)
 
     # NOTE: using `unsafeCreateRetryableTicket` so that refund address is not aliased
     raw_call(
-        arb_inbox,
+        destination.arb_inbox.address,
         _abi_encode(
-            relayer,  # to
+            destination.relayer,  # to
             empty(uint256),  # l2CallValue
             submission_cost,  # maxSubmissionCost
-            arb_refund,  # excessFeeRefundAddress
-            arb_refund,  # callValueRefundAddress
+            destination.arb_refund,  # excessFeeRefundAddress
+            destination.arb_refund,  # callValueRefundAddress
             _gas_limit,
             _max_fee_per_gas,
             data,
@@ -124,32 +120,13 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint256, _
 
 
 @external
-def set_relayer(_relayer: address):
+def set_destination_data(_chain_id: uint256, _destination_data: DestinationData):
     """
-    @notice Set relayer address on child chain. Should be set once.
+    @notice Set destination data for child chain.
     """
-    # Initially anyone can set but if front-ran need to set by DAO
-    if self.relayer != empty(address):
-        assert msg.sender == self.admins.ownership
-
-    self.relayer = _relayer
-    log SetRelayer(_relayer)
-
-
-@external
-def set_arb_inbox(_arb_inbox: address):
     assert msg.sender == self.admins.ownership
-
-    self.arb_inbox = _arb_inbox
-    log SetArbInbox(_arb_inbox)
-
-
-@external
-def set_arb_refund(_arb_refund: address):
-    assert msg.sender == self.admins.ownership
-
-    self.arb_refund = _arb_refund
-    log SetArbRefund(_arb_refund)
+    self.destination_data[_chain_id] = _destination_data
+    log SetDestinationData(_chain_id, _destination_data)
 
 
 @external

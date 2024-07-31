@@ -6,20 +6,20 @@ import pytest
 from eth_utils import keccak
 
 
-def test_constructor(alice, bob, charlie, broadcaster, relayer, mock_chain, mock_messenger):
+def test_constructor(
+    alice, bob, charlie, broadcaster, chain_id, relayer, mock_chain, mock_messenger
+):
     assert broadcaster.admins() == (alice, bob, charlie)
-    assert broadcaster.relayer() == relayer
-    assert broadcaster.ovm_chain() == mock_chain
-    assert broadcaster.ovm_messenger() == mock_messenger
+    assert broadcaster.destination_data(chain_id) == (mock_chain, mock_messenger, relayer)
 
 
 @pytest.mark.parametrize("idx,gas_limit", itertools.product(range(3), [0, 1]))
 def test_broadcast_success(
-    alice, bob, charlie, broadcaster, mock_chain, mock_messenger, idx, gas_limit
+    alice, bob, charlie, broadcaster, chain_id, mock_chain, mock_messenger, idx, gas_limit
 ):
     msg_sender = [alice, bob, charlie][idx]
 
-    tx = broadcaster.broadcast([(alice.address, b"")], gas_limit, sender=msg_sender)
+    tx = broadcaster.broadcast(chain_id, [(alice.address, b"")], gas_limit, sender=msg_sender)
 
     tx_trace = list(tx.trace)
     staticcall_targets = {f.contract_address for f in tx_trace if f.op == "STATICCALL"}
@@ -37,35 +37,27 @@ def test_broadcast_success(
         assert mock_chain.address not in staticcall_targets
 
 
-def test_broadcast_reverts(dave, broadcaster):
+def test_broadcast_reverts(alice, dave, broadcaster, chain_id, ZERO_ADDRESS):
     with ape.reverts():
-        broadcaster.broadcast([(dave.address, b"")], 0, sender=dave)
+        broadcaster.broadcast(chain_id, [(dave.address, b"")], 0, sender=dave)
+    with ape.reverts():
+        broadcaster.broadcast(chain_id + 1, [(dave.address, b"")], 0, sender=alice)
 
 
-def test_set_ovm_chain(alice, broadcaster, ZERO_ADDRESS):
-    tx = broadcaster.set_ovm_chain(ZERO_ADDRESS, sender=alice)
+def test_set_destination_data(alice, bob, broadcaster, chain_id, ZERO_ADDRESS):
+    tx = broadcaster.set_destination_data(chain_id + 1, (bob, bob, bob), sender=alice)
 
-    assert broadcaster.ovm_chain() == ZERO_ADDRESS
+    assert broadcaster.destination_data(chain_id + 1) == (bob, bob, bob)
     assert len(tx.logs) == 1
-    assert tx.logs[0]["topics"][0] == keccak(text="SetOVMChain(address)")
+    assert tx.logs[0]["topics"][0] == keccak(
+        text="SetDestinationData(uint256,(address,address,address))"
+    )
+    assert int(tx.logs[0]["topics"][1].hex(), base=16) == chain_id + 1
 
 
-def test_set_ovm_chain_reverts(bob, broadcaster, ZERO_ADDRESS):
+def test_set_destination_data_reverts(bob, broadcaster, chain_id, ZERO_ADDRESS):
     with ape.reverts():
-        broadcaster.set_ovm_chain(ZERO_ADDRESS, sender=bob)
-
-
-def test_set_ovm_messenger(alice, broadcaster, ZERO_ADDRESS):
-    tx = broadcaster.set_ovm_messenger(ZERO_ADDRESS, sender=alice)
-
-    assert broadcaster.ovm_messenger() == ZERO_ADDRESS
-    assert len(tx.logs) == 1
-    assert tx.logs[0]["topics"][0] == keccak(text="SetOVMMessenger(address)")
-
-
-def test_set_ovm_messenger_reverts(bob, broadcaster, ZERO_ADDRESS):
-    with ape.reverts():
-        broadcaster.set_ovm_messenger(ZERO_ADDRESS, sender=bob)
+        broadcaster.set_destination_data(chain_id + 1, (bob, bob, bob), sender=bob)
 
 
 def test_commit_admins(alice, bob, charlie, broadcaster):
