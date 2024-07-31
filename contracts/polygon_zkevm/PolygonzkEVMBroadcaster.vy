@@ -1,8 +1,13 @@
-# @version 0.3.10
+# pragma version 0.3.10
 """
 @title Polygon zkEVM Broadcaster
 @author CurveFi
+@license MIT
+@custom:version 1.0.1
 """
+
+
+version: public(constant(String[8])) = "1.0.1"
 
 
 interface PolygonZkEVMBridge:
