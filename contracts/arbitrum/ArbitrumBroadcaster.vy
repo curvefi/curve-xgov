@@ -47,7 +47,7 @@ struct Message:
 
 struct DestinationData:
     arb_inbox: IArbInbox
-    arb_refund: address
+    arb_refund: address  # DAO owned Vault or FeeCollector
     relayer: address
 
 

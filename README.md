@@ -9,7 +9,7 @@ Updated version for deploy via curve-lite.
 |---------------|-----------------------------------------------------------------------------------------------------------------------|
 | Polygon zkEVM | [0xB5e7fE8eA8ECbd33504485756fCabB5f5D29C051](https://etherscan.io/address/0xB5e7fE8eA8ECbd33504485756fCabB5f5D29C051) |
 | Optimism      | [0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9](https://etherscan.io/address/0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9) |
-
+| Arbitrum      | [0x94630a56519c00Be339BBd8BD26f342Bf4bd7eE0](https://etherscan.io/address/0x94630a56519c00Be339BBd8BD26f342Bf4bd7eE0) |
 
 # Others
 
@@ -27,29 +27,6 @@ Updated version for deploy via curve-lite.
 | [L2 Vault](contracts/Vault.vy)                              | [0x25877b9413Cc7832A6d142891b50bd53935feF82](https://arbiscan.io/address/0x25877b9413Cc7832A6d142891b50bd53935feF82)  |
 | [Agent Blueprint](scripts/deploy_agent.py)              | [0x187FE3505e56f4dA67b06564F03575cC15bE2B4d](https://arbiscan.io/address/0x187FE3505e56f4dA67b06564F03575cC15bE2B4d)  |
 
-### Testnet Deployment Steps
-
-1. Deploy `Agent` blueprint to Arbitrum
-
-   ```bash
-   $ ape run deploy_agent --network https://goerli-rollup.arbitrum.io/rpc
-   ```
-
-2. Deploy `ArbitrumRelayer` and `Vault` to Arbitrum
-
-   ```bash
-   $ ape run arbitrum --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli-rollup.arbitrum.io/rpc
-   ```
-
-3. Deploy `ArbitrumBroadcaster` to Goerli
-
-   ```bash
-   $ ape run arbitrum --arb-refund <ARB_VAULT_ADDRESS> --network :goerli:infura
-   ```
-
-Note: The `ArbitrumRelayer` and the `ArbitrumBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
-preferable to generate a fresh account and use it for steps 2 and 3.
-
 ## Optimism
 
 ### Mainnet Deployment Addresses
@@ -63,29 +40,6 @@ preferable to generate a fresh account and use it for steps 2 and 3.
 | [L2 Emergency Agent](contracts/Agent.vy)                    | [0x9fF1ddE4BE9BbD891836863d227248047B3D881b](https://optimistic.etherscan.io/address/0x9fF1ddE4BE9BbD891836863d227248047B3D881b) |
 | [L2 Vault](contracts/Vault.vy)                              | [0xD166EEdf272B860E991d331B71041799379185D5](https://optimistic.etherscan.io/address/0xD166EEdf272B860E991d331B71041799379185D5) |
 | [Agent Blueprint](scripts/deploy_agent.py)              | [0xC5fd5D3b06a8ef50b911972CA313E4d327F7c0aC](https://optimistic.etherscan.io/address/0xc5fd5d3b06a8ef50b911972ca313e4d327f7c0ac) |
-
-### Testnet Deployment Steps
-
-1. Deploy `Agent` blueprint to Optimism
-
-   ```bash
-   $ ape run deploy_blueprint Agent --network https://goerli.optimism.io/
-   ```
-
-2. Deploy `OptimismRelayer` and `Vault` to Optimism
-
-   ```bash
-   $ ape run optimism --blueprint <AGENT_BLUEPRINT_ADDRESS> --network https://goerli.optimism.io/
-   ```
-
-3. Deploy `OptimismBroadcaster` to Goerli
-
-   ```bash
-   $ ape run optimism --network :goerli:infura
-   ```
-
-Note: The `OptimismRelayer` and the `OptimismBroadcaster` need to be deployed at the same address. To do so you need to use the same nonce. It's
-preferable to generate a fresh account and use it for steps 2 and 3.
 
 ## X layer
 
