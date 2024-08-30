@@ -1,25 +1,33 @@
-# @version 0.3.7
+# pragma version 0.3.10
 """
 @title Optimism Broadcaster
 @author CurveFi
+@license MIT
+@custom:version 1.0.1
 """
+
+
+version: public(constant(String[8])) = "1.0.1"
 
 
 interface OVMChain:
     def enqueueL2GasPrepaid() -> uint32: view
 
 
+event Broadcast:
+    chain_id: indexed(uint256)
+    agent: indexed(Agent)
+    messages: DynArray[Message, MAX_MESSAGES]
+
+event SetDestinationData:
+    chain_id: indexed(uint256)
+    data: DestinationData
+
 event ApplyAdmins:
     admins: AdminSet
 
 event CommitAdmins:
     future_admins: AdminSet
-
-event SetOVMChain:
-    ovm_chain: address
-
-event SetOVMMessenger:
-    ovm_messenger: address
 
 
 enum Agent:
@@ -38,6 +46,12 @@ struct Message:
     data: Bytes[MAX_BYTES]
 
 
+struct DestinationData:
+    ovm_chain: OVMChain  # CanonicalTransactionChain
+    ovm_messenger: address  # CrossDomainMessenger
+    relayer: address
+
+
 MAX_BYTES: constant(uint256) = 1024
 MAX_MESSAGES: constant(uint256) = 8
 
@@ -45,14 +59,12 @@ MAX_MESSAGES: constant(uint256) = 8
 admins: public(AdminSet)
 future_admins: public(AdminSet)
 
+destination_data: public(HashMap[uint256, DestinationData])
 agent: HashMap[address, Agent]
-
-ovm_chain: public(address)  # CanonicalTransactionChain
-ovm_messenger: public(address)  # CrossDomainMessenger
 
 
 @external
-def __init__(_admins: AdminSet, _ovm_chain: address, _ovm_messenger: address):
+def __init__(_admins: AdminSet):
     assert _admins.ownership != _admins.parameter  # a != b
     assert _admins.ownership != _admins.emergency  # a != c
     assert _admins.parameter != _admins.emergency  # b != c
@@ -63,33 +75,34 @@ def __init__(_admins: AdminSet, _ovm_chain: address, _ovm_messenger: address):
     self.agent[_admins.parameter] = Agent.PARAMETER
     self.agent[_admins.emergency] = Agent.EMERGENCY
 
-    self.ovm_chain = _ovm_chain
-    self.ovm_messenger = _ovm_messenger
-
     log ApplyAdmins(_admins)
-    log SetOVMChain(_ovm_chain)
-    log SetOVMMessenger(_ovm_messenger)
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0):
+def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0, _destination_data: DestinationData=empty(DestinationData)):
     """
-    @notice Broadcast a sequence of messeages.
+    @notice Broadcast a sequence of messages.
+    @param _chain_id Chain ID of L2
     @param _messages The sequence of messages to broadcast.
     @param _gas_limit The L2 gas limit required to execute the sequence of messages.
+    @param _destination_data Specific DestinationData (self.destination_data by default)
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+    destination: DestinationData = _destination_data
+    if destination.relayer == empty(address):
+        destination = self.destination_data[_chain_id]
+    assert destination.relayer != empty(address)
 
     # https://community.optimism.io/docs/developers/bridge/messaging/#for-l1-%E2%87%92-l2-transactions
     gas_limit: uint32 = _gas_limit
     if gas_limit == 0:
-        gas_limit = OVMChain(self.ovm_chain).enqueueL2GasPrepaid()
+        gas_limit = destination.ovm_chain.enqueueL2GasPrepaid()
 
     raw_call(
-        self.ovm_messenger,
+        destination.ovm_messenger,
         _abi_encode(  # sendMessage(address,bytes,uint32)
-            self,
+            destination.relayer,
             _abi_encode(  # relay(uint256,(address,bytes)[])
                 agent,
                 _messages,
@@ -102,25 +115,13 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _gas_limit: uint32 = 0
 
 
 @external
-def set_ovm_chain(_ovm_chain: address):
+def set_destination_data(_chain_id: uint256, _destination_data: DestinationData):
     """
-    @notice Set the OVM Canonical Transaction Chain storage variable.
-    """
-    assert msg.sender == self.admins.ownership
-
-    self.ovm_chain = _ovm_chain
-    log SetOVMChain(_ovm_chain)
-
-
-@external
-def set_ovm_messenger(_ovm_messenger: address):
-    """
-    @notice Set the OVM Cross Domain Messenger storage variable.
+    @notice Set destination data for child chain.
     """
     assert msg.sender == self.admins.ownership
-
-    self.ovm_messenger = _ovm_messenger
-    log SetOVMMessenger(_ovm_messenger)
+    self.destination_data[_chain_id] = _destination_data
+    log SetDestinationData(_chain_id, _destination_data)
 
 
 @external

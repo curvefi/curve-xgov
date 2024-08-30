@@ -1,8 +1,13 @@
-# @version 0.3.10
+# pragma version 0.3.10
 """
 @title Polygon zkEVM Broadcaster
 @author CurveFi
+@license MIT
+@custom:version 1.0.1
 """
+
+
+version: public(constant(String[8])) = "1.0.1"
 
 
 interface PolygonZkEVMBridge:
@@ -10,8 +15,14 @@ interface PolygonZkEVMBridge:
 
 
 event Broadcast:
-    agent: Agent
+    chain_id: indexed(uint256)
+    agent: indexed(Agent)
     messages: DynArray[Message, MAX_MESSAGES]
+
+
+event SetDestinationData:
+    chain_id: indexed(uint256)
+    data: DestinationData
 
 
 event SetNewBridge:
@@ -45,6 +56,11 @@ struct Message:
     data: Bytes[MAX_BYTES]
 
 
+struct DestinationData:
+    network: uint32
+    relayer: address
+
+
 MAX_BYTES: constant(uint256) = 1024
 MAX_MESSAGES: constant(uint256) = 8
 MAX_MESSAGE_RECEIVED: constant(uint256) = 9400
@@ -53,14 +69,14 @@ MAX_MESSAGE_RECEIVED: constant(uint256) = 9400
 admins: public(AdminSet)
 future_admins: public(AdminSet)
 
+destination_data: public(HashMap[uint256, DestinationData])
 agent: public(HashMap[address, Agent])
 
 POLYGON_ZKEVM_BRIDGE: public(immutable(PolygonZkEVMBridge))
-DESTINATION_NETWORK: public(immutable(uint32))
 
 
 @external
-def __init__(_admins: AdminSet, _polygon_zkevm_bridge: PolygonZkEVMBridge, _destination_network: uint32):
+def __init__(_admins: AdminSet, _polygon_zkevm_bridge: PolygonZkEVMBridge):
     assert _admins.ownership != _admins.parameter  # a != b
     assert _admins.ownership != _admins.emergency  # a != c
     assert _admins.parameter != _admins.emergency  # b != c
@@ -72,23 +88,28 @@ def __init__(_admins: AdminSet, _polygon_zkevm_bridge: PolygonZkEVMBridge, _dest
     self.agent[_admins.emergency] = Agent.EMERGENCY
 
     POLYGON_ZKEVM_BRIDGE = _polygon_zkevm_bridge
-    DESTINATION_NETWORK = _destination_network
 
     log ApplyAdmins(_admins)
 
 
 @external
-def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=True):
+def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=True, _destination_data: DestinationData=empty(DestinationData)):
     """
     @notice Broadcast a sequence of messages.
     @dev Save `depositCount` from POLYGON_ZKEVM_BRIDGE.BridgeEvent to claim message on destination chain
+    @param _chain_id Chain ID of L2
     @param _messages The sequence of messages to broadcast.
     @param _force_update Indicates if the new global exit root is updated or not (forceUpdateGlobalExitRoot)
+    @param _destination_data Specific DestinationData (self.destination_data by default)
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+    destination: DestinationData = _destination_data
+    if destination.relayer == empty(address):
+        destination = self.destination_data[_chain_id]
+    assert destination.relayer != empty(address)
 
-    POLYGON_ZKEVM_BRIDGE.bridgeMessage(DESTINATION_NETWORK, self, _force_update,
+    POLYGON_ZKEVM_BRIDGE.bridgeMessage(destination.network, destination.relayer, _force_update,
         _abi_encode(  # relay(uint256,(address,bytes)[])
             agent,
             _messages,
@@ -96,7 +117,17 @@ def broadcast(_messages: DynArray[Message, MAX_MESSAGES], _force_update: bool=Tr
         ),
     )
 
-    log Broadcast(agent, _messages)
+    log Broadcast(_chain_id, agent, _messages)
+
+
+@external
+def set_destination_data(_chain_id: uint256, _destination_data: DestinationData):
+    """
+    @notice Set destination data for child chain.
+    """
+    assert msg.sender == self.admins.ownership
+    self.destination_data[_chain_id] = _destination_data
+    log SetDestinationData(_chain_id, _destination_data)
 
 
 @external

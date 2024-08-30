@@ -27,7 +27,7 @@ def _set_destination_address(_destination_address: address):
 @payable
 @external
 def bridgeMessage(_destination_network: uint32, _destination_address: address, _force_update: bool, _metadata: Bytes[9000]):
-    assert _destination_network == 3, "DestinationNetworkInvalid"
+    assert _destination_network == 1, "DestinationNetworkInvalid"
 
     self.origin_address = msg.sender
     self.destination_address = _destination_address

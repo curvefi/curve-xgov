@@ -1,19 +1,17 @@
 import math
 
 import ape
-import eth_abi
 import pytest
 
 from tests import AgentEnum
 
 
-def test_constructor(alice, project, agent_blueprint, mock_messenger, ZERO_ADDRESS):
-    relayer = project.OptimismRelayer.deploy(agent_blueprint, mock_messenger, sender=alice)
-
+def test_constructor(alice, broadcaster, relayer, agent_blueprint, mock_messenger, ZERO_ADDRESS):
     assert relayer.OWNERSHIP_AGENT() != ZERO_ADDRESS
     assert relayer.PARAMETER_AGENT() != ZERO_ADDRESS
     assert relayer.EMERGENCY_AGENT() != ZERO_ADDRESS
     assert relayer.MESSENGER() == mock_messenger
+    assert relayer.BROADCASTER() == broadcaster
 
 
 @pytest.mark.parametrize("agent", AgentEnum)
