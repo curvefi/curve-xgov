@@ -167,3 +167,19 @@ Updated version for deploy via curve-lite.
 | [Parameter Agent](contracts/Agent.vy)          | [0x3CF7c393519ea55D1E1F2c55a6395be63b1A9F9C](https://polygonscan.com/address/0x3CF7c393519ea55D1E1F2c55a6395be63b1A9F9C) |
 | [Emergency Agent](contracts/Agent.vy)          | [0x9FD6E204e08867170ddE54a8374083fF592eBD3E](https://polygonscan.com/address/0x9FD6E204e08867170ddE54a8374083fF592eBD3E) |
 | [Agent Blueprint](scripts/deploy_agent.py) | [0x1fE46Da288A55aAf32facc6D182fB1933B22c2E9](https://polygonscan.com/address/0x1fE46Da288A55aAf32facc6D182fB1933B22c2E9) |
+
+
+## Fraxtal
+
+### Mainnet Deployment Addresses
+
+| Name                                                     | Address                                                                                                                |
+|----------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| [Broadcaster](contracts/optimism/OptimismBroadcaster.vy) | [0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9](https://etherscan.com/address/0xE0fE4416214e95F0C67Dc044AAf1E63d6972e0b9) |
+| [Relayer](contracts/optimism/OptimismRelayer.vy)         | [0x7BE6BD57A319A7180f71552E58c9d32Da32b6f96](https://fraxscan.com/address/0x7BE6BD57A319A7180f71552E58c9d32Da32b6f96)  |
+| [Ownership Agent](contracts/Agent.vy)                    | [0x4BbdFEd5696b3a8F6B3813506b5389959C5CDC57](https://fraxscan.com/address/0x4BbdFEd5696b3a8F6B3813506b5389959C5CDC57)  |
+| [Parameter Agent](contracts/Agent.vy)                    | [0x61E0521A1FA8CA2f544ab6b7B7e89059e5b361FF](https://fraxscan.com/address/0x61E0521A1FA8CA2f544ab6b7B7e89059e5b361FF)  |
+| [Emergency Agent](contracts/Agent.vy)                    | [0xeF3D6Bc9a603AcABAEd46f43506F01e7eC4d1301](https://fraxscan.com/address/0xeF3D6Bc9a603AcABAEd46f43506F01e7eC4d1301)  |
+| [L2 Vault](contracts/Vault.vy)                           | [0x50eD95CEb917443eE0790Eea97494121CA318a6C](https://fraxscan.com/address/0x50eD95CEb917443eE0790Eea97494121CA318a6C)  |
+| [Agent Blueprint](scripts/deploy_agent.py)               | [0x47fE2319e3Ea3451f87196Aca4973563CEda838b](https://fraxscan.com/address/0x47fE2319e3Ea3451f87196Aca4973563CEda838b)  |
+
