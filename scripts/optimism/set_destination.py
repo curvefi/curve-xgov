@@ -14,6 +14,11 @@ def cli(account, chain_id, relayer):
             "0x5E4e65926BA27467555EB562121fac00D24E9dD2",
             "0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1",
         )
+    elif int(chain_id) == 252:  # fraxtal
+        ovm_chain, ovm_messenger = (
+            "0x0000000000000000000000000000000000000000",
+            "0x126bcc31Bc076B3d515f60FBC81FddE0B0d542Ed",
+        )
     elif int(chain_id) == 5000:  # mantle
         ovm_chain, ovm_messenger = (
             "0x291dc3819b863e19b0a9b9809F8025d2EB4aaE93",
