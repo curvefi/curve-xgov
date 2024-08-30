@@ -6,9 +6,7 @@ import pytest
 from tests import AgentEnum
 
 
-def test_constructor(alice, project, agent_blueprint, mock_bridge, ZERO_ADDRESS):
-    relayer = project.OptimismRelayer.deploy(agent_blueprint, mock_bridge, sender=alice)
-
+def test_constructor(alice, relayer, agent_blueprint, mock_bridge, ZERO_ADDRESS):
     assert relayer.OWNERSHIP_AGENT() != ZERO_ADDRESS
     assert relayer.PARAMETER_AGENT() != ZERO_ADDRESS
     assert relayer.EMERGENCY_AGENT() != ZERO_ADDRESS
