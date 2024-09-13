@@ -127,6 +127,7 @@ Older version, not generic.
 ## Avalanche
 
 ### C-chain
+xdao
 
 | Name                                           | Address                                                                                                               |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -141,6 +142,7 @@ Older version, not generic.
 ## Fantom
 
 ### Fantom
+xdao
 
 | Name                                           | Address                                                                                                               |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -155,6 +157,7 @@ Older version, not generic.
 ## Binance Smart Chain
 
 ### BSC
+xdao
 
 | Name                                           | Address                                                                                                               |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -169,6 +172,7 @@ Older version, not generic.
 ## Kava
 
 ### Kava
+xdao
 
 | Name                                           | Address                                                                                                               |
 |------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
@@ -182,10 +186,11 @@ Older version, not generic.
 ## Polygon
 
 ### Polygon
+xdao
 
 | Name                                           | Address                                                                                                                  |
 |------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7](https://etherscan.io/address/0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7)    |
+| [Broadcaster](contracts/xyz/XYZBroadcaster.vy) | [0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89](https://etherscan.io/address/0x5786696bB5bE7fCDb9997E7f89355d9e97FF8d89)    |
 | [Relayer](contracts/xyz/XYZRelayer.vy)         | [0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7](https://polygonscan.com/address/0x91e95f16f7F1b988391A869771Ffb50Df4ceBDF7) |
 | [Ownership Agent](contracts/Agent.vy)          | [0x8cB05bFEd65b522a7cF98d590F1711A9Db43af71](https://polygonscan.com/address/0x8cB05bFEd65b522a7cF98d590F1711A9Db43af71) |
 | [Parameter Agent](contracts/Agent.vy)          | [0x3CF7c393519ea55D1E1F2c55a6395be63b1A9F9C](https://polygonscan.com/address/0x3CF7c393519ea55D1E1F2c55a6395be63b1A9F9C) |
