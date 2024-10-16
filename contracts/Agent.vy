@@ -1,13 +1,28 @@
-# pragma version 0.3.10
+# pragma version 0.4.0
+# pragma evm-version shanghai
 """
 @title Agent
 @author CurveFi
+@license MIT
+@custom:version 1.0.0
 """
+
+version: public(constant(String[8])) = "1.0.0"
+
+interface IAgent:
+    def execute(_messages: DynArray[Message, MAX_MESSAGES]): nonpayable
+    def RELAYER() -> address: view
 
 
 struct Message:
     target: address
     data: Bytes[MAX_BYTES]
+
+
+flag Agent:
+    OWNERSHIP
+    PARAMETER
+    EMERGENCY
 
 
 MAX_BYTES: constant(uint256) = 1024
@@ -17,7 +32,7 @@ MAX_MESSAGES: constant(uint256) = 8
 RELAYER: public(immutable(address))
 
 
-@external
+@deploy
 def __init__():
     RELAYER = msg.sender
 
@@ -30,5 +45,5 @@ def execute(_messages: DynArray[Message, MAX_MESSAGES]):
     """
     assert msg.sender == RELAYER
 
-    for message in _messages:
+    for message: Message in _messages:
         raw_call(message.target, message.data)
