@@ -71,9 +71,10 @@ def __init__(_admins: Broadcaster.AdminSet):
 exports: Broadcaster.__interface__
 
 
+@payable
 @external
 def __default__():
-    pass
+    assert len(msg.data) == 0
 
 
 @internal
@@ -94,7 +95,6 @@ def _applied_destination_data(data: DestinationData) -> DestinationData:
 def broadcast(_chain_id: uint256, _messages: DynArray[Broadcaster.agent_lib.Message, Broadcaster.agent_lib.MAX_MESSAGES], _destination_data: DestinationData=empty(DestinationData)):
     """
     @notice Broadcast a sequence of messages.
-    @dev Save `depositCount` from POLYGON_ZKEVM_BRIDGE.BridgeEvent to claim message on destination chain
     @param _chain_id Chain ID of L2
     @param _messages The sequence of messages to broadcast.
     @param _destination_data Specific DestinationData (self.destination_data by default)
