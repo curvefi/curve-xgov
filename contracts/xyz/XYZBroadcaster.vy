@@ -73,7 +73,7 @@ def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _t
     @param _ttl Time-to-leave for message if it's not executed.
     """
     agent: Agent = self.agent[msg.sender]
-    assert agent != empty(Agent)
+    assert agent != empty(Agent) and len(_messages) > 0
     if agent != Agent.EMERGENCY:  # Emergency votes should be emergent
         assert 86400 <= _ttl
     assert _ttl <= 21 * 86400
