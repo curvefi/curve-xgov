@@ -6,10 +6,11 @@
 
 
 event Broadcast:
-    agent: Agent
-    chain_id: uint256
+    agent: indexed(Agent)
+    chain_id: indexed(uint256)
     nonce: uint256
     digest: bytes32
+    deadline: uint256
 
 event ApplyAdmins:
     admins: AdminSet
@@ -45,6 +46,7 @@ agent: HashMap[address, Agent]
 
 nonce: public(HashMap[Agent, HashMap[uint256, uint256]])  # agent -> chainId -> nonce
 digest: public(HashMap[Agent, HashMap[uint256, HashMap[uint256, bytes32]]])  # agent -> chainId -> nonce -> messageDigest
+deadline: public(HashMap[Agent, HashMap[uint256, HashMap[uint256, uint256]]])  # agent -> chainId -> nonce -> deadline
 
 
 @external
@@ -63,22 +65,27 @@ def __init__(_admins: AdminSet):
 
 
 @external
-def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES]):
+def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _ttl: uint256=7 * 86400):
     """
     @notice Broadcast a sequence of messeages.
     @param _chain_id The chain id to have messages executed on.
     @param _messages The sequence of messages to broadcast.
+    @param _ttl Time-to-leave for message if it's not executed.
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent)
+    if agent != Agent.EMERGENCY:  # Emergency votes should be emergent
+        assert 86400 <= _ttl
+    assert _ttl <= 21 * 86400
 
     digest: bytes32 = keccak256(_abi_encode(_messages))
     nonce: uint256 = self.nonce[agent][_chain_id]
 
     self.digest[agent][_chain_id][nonce] = digest
     self.nonce[agent][_chain_id] = nonce + 1
+    self.deadline[agent][_chain_id][nonce] = block.timestamp + _ttl
 
-    log Broadcast(agent, _chain_id, nonce, digest)
+    log Broadcast(agent, _chain_id, nonce, digest, block.timestamp + _ttl)
 
 
 @external
