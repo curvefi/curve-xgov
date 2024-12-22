@@ -95,9 +95,9 @@ def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _t
 
     self.digest[agent][_chain_id][nonce] = digest
     self.nonce[agent][_chain_id] = nonce + 1
-    self.deadline[agent][_chain_id][nonce] = block.timestamp + _ttl
+    self.deadline[agent][_chain_id][nonce] = block.timestamp + ttl
 
-    log Broadcast(agent, _chain_id, nonce, digest, block.timestamp + _ttl)
+    log Broadcast(agent, _chain_id, nonce, digest, block.timestamp + ttl)
 
 
 @external
