@@ -7,6 +7,7 @@
 @custom:security security@curve.fi
 """
 
+version: public(constant(String[8])) = "0.0.2"
 
 event Broadcast:
     agent: indexed(Agent)
