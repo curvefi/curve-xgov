@@ -69,6 +69,21 @@ def __init__(_admins: AdminSet):
     log ApplyAdmins(_admins)
 
 
+@internal
+@pure
+def _get_ttl(agent: Agent, ttl: uint256) -> uint256:
+    if agent == Agent.EMERGENCY:
+        # Emergency votes should be brisk
+        if ttl == 0:
+            ttl = DAY  # default
+        assert ttl <= WEEK
+    else:
+        if ttl == 0:
+            ttl = WEEK  # default
+        assert DAY <= ttl and ttl <= 3 * WEEK
+    return ttl
+
+
 @external
 def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _ttl: uint256=0):
     """
@@ -79,16 +94,7 @@ def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _t
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent) and len(_messages) > 0
-    ttl: uint256 = _ttl
-    if agent == Agent.EMERGENCY:
-        # Emergency votes should be brisk
-        if ttl == 0:
-            ttl = DAY  # default
-        assert ttl <= WEEK
-    else:
-        if ttl == 0:
-            ttl = WEEK  # default
-        assert DAY <= ttl and ttl <= 3 * WEEK
+    ttl: uint256 = self._get_ttl(agent, _ttl)
 
     digest: bytes32 = keccak256(_abi_encode(_messages))
     nonce: uint256 = self.nonce[agent][_chain_id]
