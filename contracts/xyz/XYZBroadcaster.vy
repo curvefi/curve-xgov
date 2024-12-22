@@ -2,6 +2,9 @@
 """
 @title XYZ Broadcaster
 @author CurveFi
+@license MIT
+@custom:version 0.0.2
+@custom:security security@curve.fi
 """
 
 
