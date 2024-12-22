@@ -38,6 +38,8 @@ struct Message:
 MAX_BYTES: constant(uint256) = 1024
 MAX_MESSAGES: constant(uint256) = 8
 
+DAY: constant(uint256) = 86400
+WEEK: constant(uint256) = 7 * DAY
 
 admins: public(AdminSet)
 future_admins: public(AdminSet)
@@ -65,18 +67,25 @@ def __init__(_admins: AdminSet):
 
 
 @external
-def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _ttl: uint256=7 * 86400):
+def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _ttl: uint256=0):
     """
-    @notice Broadcast a sequence of messeages.
+    @notice Broadcast a sequence of messages.
     @param _chain_id The chain id to have messages executed on.
     @param _messages The sequence of messages to broadcast.
-    @param _ttl Time-to-leave for message if it's not executed.
+    @param _ttl Time-to-leave for message if it's not executed. 0 will use default values.
     """
     agent: Agent = self.agent[msg.sender]
     assert agent != empty(Agent) and len(_messages) > 0
-    if agent != Agent.EMERGENCY:  # Emergency votes should be emergent
-        assert 86400 <= _ttl
-    assert _ttl <= 21 * 86400
+    ttl: uint256 = _ttl
+    if agent == Agent.EMERGENCY:
+        # Emergency votes should be brisk
+        if ttl == 0:
+            ttl = DAY  # default
+        assert ttl <= WEEK
+    else:
+        if ttl == 0:
+            ttl = WEEK  # default
+        assert DAY <= ttl and ttl <= 3 * WEEK
 
     digest: bytes32 = keccak256(_abi_encode(_messages))
     nonce: uint256 = self.nonce[agent][_chain_id]
