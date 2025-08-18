@@ -57,6 +57,9 @@ deadline: public(HashMap[Agent, HashMap[uint256, HashMap[uint256, uint256]]])  #
 
 @external
 def __init__(_admins: AdminSet):
+    """
+    @param _admins Set of admins, whose messages are being broadcasted.
+    """
     assert _admins.ownership != _admins.parameter  # a != b
     assert _admins.ownership != _admins.emergency  # a != c
     assert _admins.parameter != _admins.emergency  # b != c
@@ -111,6 +114,7 @@ def broadcast(_chain_id: uint256, _messages: DynArray[Message, MAX_MESSAGES], _t
 def commit_admins(_future_admins: AdminSet):
     """
     @notice Commit an admin set to use in the future.
+    @param _future_admins Future admins.
     """
     assert msg.sender == self.admins.ownership
 
