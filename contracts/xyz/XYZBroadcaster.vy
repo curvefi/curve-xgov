@@ -141,6 +141,7 @@ def apply_admins():
 
     # set new admins
     future_admins: AdminSet = self.future_admins
+    assert future_admins.ownership != empty(address), "Future admin is not set"
     self.agent[future_admins.ownership] = Agent.OWNERSHIP
     self.agent[future_admins.parameter] = Agent.PARAMETER
     self.agent[future_admins.emergency] = Agent.EMERGENCY
