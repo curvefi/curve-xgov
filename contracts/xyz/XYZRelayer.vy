@@ -5,6 +5,10 @@
 """
 
 
+event Relay:
+    agent: indexed(Agent)
+    messages: DynArray[Message, MAX_MESSAGES]
+
 event SetMessenger:
     messenger: address
 
@@ -63,6 +67,8 @@ def relay(_agent: Agent, _messages: DynArray[Message, MAX_MESSAGES]):
     assert msg.sender == self.messenger
 
     IAgent(self.agent[_agent]).execute(_messages)
+
+    log Relay(_agent, _messages)
 
 
 @external
