@@ -49,6 +49,7 @@ def __init__(_agent_blueprint: address, _messenger: address):
     @param _agent_blueprint Blueprint of Agent
     @param _messenger Contract relaying the messages from original chain.
     """
+    assert _messenger != empty(address), "Bad Messenger"
     self.messenger = _messenger
     log SetMessenger(_messenger)
 
@@ -83,6 +84,7 @@ def set_messenger(_messenger: address):
     @param _messenger Contract relaying the messages from original chain.
     """
     assert msg.sender == OWNERSHIP_AGENT
+    assert _messenger != empty(address), "Bad Messenger"
 
     self.messenger = _messenger
     log SetMessenger(_messenger)
