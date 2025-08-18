@@ -45,6 +45,10 @@ messenger: public(address)
 
 @external
 def __init__(_agent_blueprint: address, _messenger: address):
+    """
+    @param _agent_blueprint Blueprint of Agent
+    @param _messenger Contract relaying the messages from original chain.
+    """
     self.messenger = _messenger
     log SetMessenger(_messenger)
 
@@ -76,6 +80,7 @@ def set_messenger(_messenger: address):
     """
     @notice Set the messenger which verifies messages and is permitted to call `relay`.
     @dev Only callable by the OWNERSHIP_AGENT.
+    @param _messenger Contract relaying the messages from original chain.
     """
     assert msg.sender == OWNERSHIP_AGENT
 
